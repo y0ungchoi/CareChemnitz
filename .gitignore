@@ -1,0 +1,38 @@
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+# dependencies
+client/node_modules
+server/node_modules
+
+# misc
+client/.DS_Store
+client/.env.local
+server/config.env
+server/.DS_Store
+
+# Editor directories and files
+.vscode/*
+!.vscode/extensions.json
+.idea
+.DS_Store
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+**/.env
+.env
+dist
+dist-ssr
+*.local
+.code-workspace
+
+
+
