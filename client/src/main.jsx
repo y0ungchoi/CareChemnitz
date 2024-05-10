@@ -6,6 +6,7 @@ import Record from "./components/Record";
 import RecordList from "./components/RecordList";
 import Signin from "./components/Signin";
 import Signup from "./components/Signup";
+import Profile from "./pages/Profile";
 import "./index.css";
 
 const router = createBrowserRouter([
@@ -56,6 +57,16 @@ const router = createBrowserRouter([
       {
         path: "/signup",
         element: <Signup />,
+      },
+    ],
+  },
+  {
+    path: "/profile",
+    element: <App />,
+    children: [
+      {
+        path: "/profile",
+        element: <Profile />,
       },
     ],
   },
