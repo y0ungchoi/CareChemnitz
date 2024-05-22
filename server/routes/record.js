@@ -19,7 +19,7 @@ router.get("/", async (req, res) => {
 });
 
 // This section will help you get a single record by id
-router.get("/:id", async (req, res) => {
+router.get("/profile/:id", async (req, res) => {
   let collection = await db.collection("test");
   let query = { _id: new ObjectId(req.params.id) };
   let result = await collection.findOne(query);
@@ -47,7 +47,7 @@ router.post("/signup", async (req, res) => {
 });
 
 // This section will help you update a record by id.
-router.patch("/:id", async (req, res) => {
+router.patch("profile/:id", async (req, res) => {
   try {
     const query = { _id: new ObjectId(req.params.id) };
     const updates = {
