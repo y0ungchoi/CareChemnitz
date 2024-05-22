@@ -1,21 +1,23 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-export default function Profile() {
+export default function Profiletest() {
+  // Add your code here
+  const id = sessionStorage.getItem("userId") || undefined;
+  const navigate = useNavigate();
+
   const [form, setForm] = useState({
     firstName: "",
     lastName: "",
     email: "",
     password: "",
   });
-  const navigate = useNavigate();
 
   useEffect(() => {
     async function fetchData() {
-      const id = sessionStorage.getItem("userId") || undefined;
       if (!id) return navigate("/signin");
       const response = await fetch(
-        `http://localhost:5050/record/${id.toString()}`
+        `http://localhost:5050/record/profile/${id.toString()}`
       );
       if (!response.ok) {
         const message = `An error has occurred: ${response.statusText}`;
@@ -34,39 +36,8 @@ export default function Profile() {
     return;
   }, [id, navigate]);
 
-  // These methods will update the state properties.
-  function updateForm(value) {
-    return setForm((prev) => {
-      return { ...prev, ...value };
-    });
-  }
-
-  // This function will handle the submission.
-  async function onSubmit(e) {
-    e.preventDefault();
-    const person = { ...form };
-    try {
-      let response;
-      // if we are updating a record we will PATCH to /record/:id.
-      response = await fetch(`http://localhost:5050/record/${params.id}`, {
-        method: "PATCH",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(person),
-      });
-
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
-    } catch (error) {
-      console.error("A problem occurred adding or updating a record: ", error);
-    } finally {
-      setForm({ firstName: "", lastName: "", email: "", password: "" });
-      navigate("/");
-    }
-  }
   return (
+    // Add your JSX code here
     <form>
       <div className="space-y-12">
         <div className="border-b border-gray-900/10 pb-12">
@@ -115,7 +86,6 @@ export default function Profile() {
                 />
               </div>
             </div>
-
             <div className="sm:col-span-4">
               <label
                 htmlFor="email"
@@ -130,6 +100,25 @@ export default function Profile() {
                   type="email"
                   autoComplete="email"
                   value={form.email}
+                  className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                />
+              </div>
+            </div>
+
+            <div className="sm:col-span-4">
+              <label
+                htmlFor="password"
+                className="block text-sm font-medium leading-6 text-gray-900"
+              >
+                Password
+              </label>
+              <div className="mt-2">
+                <input
+                  id="password"
+                  name="password"
+                  type="password"
+                  autoComplete="password"
+                  value={form.password}
                   className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                 />
               </div>
