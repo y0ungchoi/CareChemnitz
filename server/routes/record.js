@@ -29,7 +29,7 @@ router.get("/:id", async (req, res) => {
 });
 
 // This section will help you create a new record.
-router.post("/", async (req, res) => {
+router.post("/signup", async (req, res) => {
   try {
     let newDocument = {
       firstName: req.body.firstName,
@@ -79,6 +79,21 @@ router.delete("/:id", async (req, res) => {
   } catch (err) {
     console.error(err);
     res.status(500).send("Error deleting record");
+  }
+});
+
+//This section will handle user sign in
+router.post("/signin", async (req, res) => {
+  try {
+    let collection = await db.collection("test");
+    let query = { email: req.body.email, password: req.body.password };
+    let result = await collection.findOne(query);
+
+    if (!result) res.send("Not found").status(404);
+    else res.send(result).status(200);
+  } catch (err) {
+    console.error(err);
+    res.status(500).send("Error signing in");
   }
 });
 
