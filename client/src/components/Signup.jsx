@@ -1,10 +1,10 @@
 import { useState, useEffect } from "react";
-import { useParams, useNavigate, NavLink } from "react-router-dom";
+import { useNavigate, useParams, NavLink } from "react-router-dom";
 
 export default function Signup() {
   const [form, setForm] = useState({
-    firstname: "",
-    lastname: "",
+    firstName: "",
+    lastName: "",
     email: "",
     password: "",
   });
@@ -52,7 +52,7 @@ export default function Signup() {
       let response;
       if (isNew) {
         // if we are adding a new record we will POST to /record.
-        response = await fetch("http://localhost:5050/record", {
+        response = await fetch("http://localhost:5050/record/signup", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -76,7 +76,7 @@ export default function Signup() {
     } catch (error) {
       console.error("A problem occurred adding or updating a record: ", error);
     } finally {
-      setForm({ firstname: "", lastName: "", email: "", password: "" });
+      setForm({ firstName: "", lastName: "", email: "", password: "" });
       navigate("/");
     }
   }
