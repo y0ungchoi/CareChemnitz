@@ -18,7 +18,7 @@ export default function Signin() {
     if (response.ok) {
       console.log(response);
       const data = await response.json();
-      sessionStorage.setItem("id", data._id);
+      sessionStorage.setItem("userId", data._id);
       navigate("/");
     } else {
       alert("Invalid credentials");
