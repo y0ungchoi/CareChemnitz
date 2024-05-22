@@ -32,7 +32,7 @@ server/.DS_Store
 dist
 dist-ssr
 *.local
-.code-workspace
+*.code-workspace
 
 
 
