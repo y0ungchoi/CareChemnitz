@@ -29,6 +29,7 @@ server/.DS_Store
 *.sw?
 **/.env
 .env
+congif.env
 dist
 dist-ssr
 *.local
