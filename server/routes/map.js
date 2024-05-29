@@ -3,21 +3,21 @@ import db from "../db/connection.js";
 
 const router = express.Router();
 
-router.get("/maps/:featureCollectionName", async (req, res) => {
+router.get("/:featureCollectionName", async (req, res) => {
   try {
-    let collection = await db.collection("facilities");
     let featureCollectionName = req.params.featureCollectionName;
+    let collection = await db.collection("facilities");
     let results = await collection
       .find({ name: featureCollectionName })
       .toArray();
-    if (results) {
-      res.send(results).status(200);
+    if (results.length > 0) {
+      res.status(200).send(results);
     } else {
-      res.send("Not found").status(404);
+      res.status(404).send("Not found");
     }
   } catch (err) {
     console.error(err);
-    res.status(500).send("Error getting record");
+    res.status(500).send("Error getting records");
   }
 });
 
