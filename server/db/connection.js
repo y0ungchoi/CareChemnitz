@@ -1,7 +1,9 @@
 import { MongoClient, ServerApiVersion } from "mongodb";
 
+const db_uri = "mongodb://localhost:27017"; // compass로 접속할 때 쓰이는 uri와 같다.
+
 const uri = process.env.ATLAS_URI || "";
-const client = new MongoClient(uri, {
+const client = new MongoClient(db_uri, {
   serverApi: {
     version: ServerApiVersion.v1,
     strict: true,
