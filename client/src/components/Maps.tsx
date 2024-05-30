@@ -27,6 +27,15 @@ type GeojsonData = {
 
 type GeojsonResponse = GeojsonData[];
 
+type userInfo = { collections: string[] };
+
+const colorMarker: { [key: string]: string } = {
+  Jugendberufshilfen: "red",
+  Kindertageseinrichtungen: "blue",
+  Schulen: "green",
+  Schulsozialarbeit: "yellow",
+};
+
 function Facility({ feature }: { feature: GeojsonFeature }) {
   return (
     <tr className="border-b transition-colors hover:bg-muted/50 data-[state=selected]:bg-muted">
@@ -42,16 +51,22 @@ export default function Maps() {
   const mapkey = import.meta.env.VITE_MAPS_API_KEY;
 
   const [geojsonData, setGeojsonData] = useState<GeojsonResponse | null>(null);
-  const [featureCollection, setFeatureCollection] =
-    useState("Schulsozialarbeit");
   const [loading, setLoading] = useState(true);
 
+  const [userInfo, setUserInfo] = useState<userInfo>({
+    collections: [],
+  });
+
   useEffect(() => {
-    async function getFacilities(featureCollection: string) {
+    async function getFacilities(collections: string[]) {
       setLoading(true);
-      const response = await fetch(
-        `http://localhost:5050/map/${featureCollection}`
-      );
+      const response = await fetch("http://localhost:5050/map/collections", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ collections }),
+      });
       if (!response.ok) {
         console.error("Failed to fetch facilities data");
         setLoading(false);
@@ -61,8 +76,12 @@ export default function Maps() {
       setGeojsonData(geojsonData);
       setLoading(false);
     }
-    getFacilities(featureCollection);
-  }, [featureCollection]);
+    if (userInfo.collections.length > 0) {
+      getFacilities(userInfo.collections);
+    } else {
+      setGeojsonData(null);
+    }
+  }, [userInfo.collections]);
 
   const facilityList = () => {
     if (!geojsonData) {
@@ -80,19 +99,48 @@ export default function Maps() {
     );
   };
 
+  const handleChange = (e: { target: { value: any; checked: any } }) => {
+    const { value, checked } = e.target;
+    const { collections } = userInfo;
+
+    if (checked) {
+      setUserInfo({
+        collections: [...collections, value],
+      });
+    } else {
+      setUserInfo({
+        collections: collections.filter((e) => e !== value),
+      });
+    }
+  };
+
   return (
     <div>
-      <select
-        onChange={(e) => setFeatureCollection(e.target.value)}
-        value={featureCollection}
-      >
-        <option value="Jugendberufshilfen">Jugendberufshilfen</option>
-        <option value="Kindertageseinrichtungen">
-          Kindertageseinrichtungen
-        </option>
-        <option value="Schulen">Schulen</option>
-        <option value="Schulsozialarbeit">Schulsozialarbeit</option>
-      </select>
+      <form>
+        <div className="row">
+          <div className="col-md-6">
+            {Object.keys(colorMarker).map((name) => (
+              <div className="form-check m-3" key={name}>
+                <input
+                  className="form-check-input"
+                  type="checkbox"
+                  name="collections"
+                  value={name}
+                  id={`checkbox-${name}`}
+                  onChange={handleChange}
+                />
+                <label
+                  className="form-check-label"
+                  htmlFor={`checkbox-${name}`}
+                >
+                  &nbsp; {name}
+                </label>
+              </div>
+            ))}
+          </div>
+        </div>
+      </form>
+
       <div className="border rounded-lg overflow-hidden">
         <div className="relative w-full overflow-auto">
           <table className="w-full caption-bottom text-sm">
@@ -149,6 +197,11 @@ export default function Maps() {
                     position={{
                       lat: feature.geometry.coordinates[1],
                       lng: feature.geometry.coordinates[0],
+                    }}
+                    icon={{
+                      url: `http://maps.google.com/mapfiles/ms/icons/${
+                        colorMarker[geojson.name]
+                      }-dot.png`,
                     }}
                   />
                 ))
