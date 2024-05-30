@@ -12,8 +12,16 @@ type GeojsonFeature = {
     coordinates: [number, number];
   };
   properties: {
-    TRAEGER: string;
+    TRAEGER: string; // Name: Schulsozialarbeit, Jugendberufshilfen
+    BEZEICHNUNG: string; // Name: Schule, Kindertageseinrichtung(with address)
     STRASSE: string;
+    HAUSBEZ: string; // Kindertageseinrichtung
+    TELEFON: string;
+    EMAIL: string; // Schule, Kindertageseinrichtung
+    WWW: string; // Website: Schule
+    URL: string; // Website: Kindertageseinrichtung
+    PLZ: string;
+    ORT: string;
     X: string;
     Y: string;
   };
@@ -27,7 +35,7 @@ type GeojsonData = {
 
 type GeojsonResponse = GeojsonData[];
 
-type userInfo = { collections: string[] };
+type facilityInfo = { facilities: string[] };
 
 const colorMarker: { [key: string]: string } = {
   Jugendberufshilfen: "red",
@@ -36,11 +44,38 @@ const colorMarker: { [key: string]: string } = {
   Schulsozialarbeit: "yellow",
 };
 
-function Facility({ feature }: { feature: GeojsonFeature }) {
+function Facility({
+  feature,
+  name,
+}: {
+  feature: GeojsonFeature;
+  name: string;
+}) {
+  let facilityName = feature.properties.TRAEGER;
+  let address = `${feature.properties.STRASSE}, ${feature.properties.PLZ} ${feature.properties.ORT}`;
+  let contact = feature.properties.TELEFON;
+  let website = "";
+  let creator = "GISAdminChemnitz";
+
+  if (name === "Schulen") {
+    facilityName = feature.properties.BEZEICHNUNG;
+    contact = `${contact}, ${feature.properties.EMAIL}`;
+    website = feature.properties.WWW;
+  } else if (name === "Kindertageseinrichtungen") {
+    // facilityName = feature.properties.BEZEICHNUNG;
+    let old = feature.properties.BEZEICHNUNG;
+    facilityName = old.substring(old.indexOf('"') + 1, old.lastIndexOf('"'));
+    address = `${feature.properties.STRASSE} ${feature.properties.HAUSBEZ}, ${feature.properties.PLZ} ${feature.properties.ORT}`;
+    contact = `${feature.properties.TELEFON}, ${feature.properties.EMAIL}`;
+    website = feature.properties.URL;
+  }
+
   return (
     <tr className="border-b transition-colors hover:bg-muted/50 data-[state=selected]:bg-muted">
-      <td className="p-4 align-middle">{feature.properties.TRAEGER}</td>
-      <td className="p-4 align-middle">{feature.properties.STRASSE}</td>
+      <td className="p-4 align-middle">{name}</td>
+      <td className="p-4 align-middle">{facilityName}</td>
+      <td className="p-4 align-middle">{address}</td>
+      <td className="p-4 align-middle">{contact}</td>
       <td className="p-4 align-middle">{feature.geometry.coordinates[0]}</td>
       <td className="p-4 align-middle">{feature.geometry.coordinates[1]}</td>
     </tr>
@@ -53,19 +88,19 @@ export default function Maps() {
   const [geojsonData, setGeojsonData] = useState<GeojsonResponse | null>(null);
   const [loading, setLoading] = useState(true);
 
-  const [userInfo, setUserInfo] = useState<userInfo>({
-    collections: [],
+  const [facilityInfo, setFacilityInfo] = useState<facilityInfo>({
+    facilities: [],
   });
 
   useEffect(() => {
-    async function getFacilities(collections: string[]) {
+    async function getFacilities(facilities: string[]) {
       setLoading(true);
-      const response = await fetch("http://localhost:5050/map/collections", {
+      const response = await fetch("http://localhost:5050/map/facilities", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ collections }),
+        body: JSON.stringify({ facilities }),
       });
       if (!response.ok) {
         console.error("Failed to fetch facilities data");
@@ -76,12 +111,12 @@ export default function Maps() {
       setGeojsonData(geojsonData);
       setLoading(false);
     }
-    if (userInfo.collections.length > 0) {
-      getFacilities(userInfo.collections);
+    if (facilityInfo.facilities.length > 0) {
+      getFacilities(facilityInfo.facilities);
     } else {
       setGeojsonData(null);
     }
-  }, [userInfo.collections]);
+  }, [facilityInfo.facilities]);
 
   const facilityList = () => {
     if (!geojsonData) {
@@ -91,25 +126,28 @@ export default function Maps() {
         </tr>
       );
     }
-
     return geojsonData.flatMap((geojson, index) =>
       geojson.features.map((feature, featureIndex) => (
-        <Facility feature={feature} key={`${index}-${featureIndex}`} />
+        <Facility
+          feature={feature}
+          name={geojson.name}
+          key={`${index}-${featureIndex}`}
+        />
       ))
     );
   };
 
   const handleChange = (e: { target: { value: any; checked: any } }) => {
     const { value, checked } = e.target;
-    const { collections } = userInfo;
+    const { facilities } = facilityInfo;
 
     if (checked) {
-      setUserInfo({
-        collections: [...collections, value],
+      setFacilityInfo({
+        facilities: [...facilities, value],
       });
     } else {
-      setUserInfo({
-        collections: collections.filter((e) => e !== value),
+      setFacilityInfo({
+        facilities: facilities.filter((e) => e !== value),
       });
     }
   };
@@ -147,11 +185,18 @@ export default function Maps() {
             <thead className="[&amp;_tr]:border-b">
               <tr className="border-b transition-colors hover:bg-muted/50 data-[state=selected]:bg-muted">
                 <th className="h-12 px-4 text-left align-middle font-medium text-muted-foreground [&amp;:has([role=checkbox])]:pr-0">
-                  TRAEGER
+                  Filter
                 </th>
                 <th className="h-12 px-4 text-left align-middle font-medium text-muted-foreground [&amp;:has([role=checkbox])]:pr-0">
-                  STRASSE
+                  Name
                 </th>
+                <th className="h-12 px-4 text-left align-middle font-medium text-muted-foreground [&amp;:has([role=checkbox])]:pr-0">
+                  Address
+                </th>
+                <th className="h-12 px-4 text-left align-middle font-medium text-muted-foreground [&amp;:has([role=checkbox])]:pr-0">
+                  Contact
+                </th>
+
                 <th className="h-12 px-4 text-left align-middle font-medium text-muted-foreground [&amp;:has([role=checkbox])]:pr-0">
                   x
                 </th>
