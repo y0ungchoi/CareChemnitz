@@ -29,10 +29,12 @@ server/.DS_Store
 *.sw?
 **/.env
 .env
+config.env
 dist
 dist-ssr
 *.local
 *.code-workspace
+dbw24.code-workspace
 
 
 

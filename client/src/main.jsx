@@ -8,6 +8,7 @@ import Signin from "./components/Signin";
 import Signup from "./components/Signup";
 import Profile from "./pages/Profiletest";
 import Logout from "./components/Logout";
+import Maps from "./components/Maps";
 import "./index.css";
 
 const router = createBrowserRouter([
@@ -78,6 +79,16 @@ const router = createBrowserRouter([
       {
         path: "/logout",
         element: <Logout />,
+      },
+    ],
+  },
+  {
+    path: "/maps",
+    element: <App />,
+    children: [
+      {
+        path: "/maps",
+        element: <Maps />,
       },
     ],
   },
