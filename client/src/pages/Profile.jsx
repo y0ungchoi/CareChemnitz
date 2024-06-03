@@ -75,7 +75,6 @@ export default function Profiletest() {
         homePlace: "",
         favPlace: "",
       });
-      navigate("/");
     }
   }
 
