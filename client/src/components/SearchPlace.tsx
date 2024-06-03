@@ -15,9 +15,6 @@ const SearchPlace: React.FC = () => {
 
   const handleSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
     setInput(event.target.value);
-  };
-
-  const handleButtonClick = () => {
     getAutoCompletePlaces(input);
   };
 
@@ -49,7 +46,6 @@ const SearchPlace: React.FC = () => {
   return (
     <div>
       <input type="text" value={input} onChange={handleSearch} />
-      <button onClick={handleButtonClick}>Search</button>
       {autoCompletePlaces.length > 0 && (
         <table>
           <thead>
