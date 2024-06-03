@@ -47,14 +47,16 @@ router.post("/signup", async (req, res) => {
 });
 
 // This section will help you update a record by id.
-router.patch("profile/:id", async (req, res) => {
+router.patch("/profile/:id", async (req, res) => {
   try {
     const query = { _id: new ObjectId(req.params.id) };
     const updates = {
       $set: {
-        name: req.body.name,
-        position: req.body.position,
-        level: req.body.level,
+        firstName: req.body.firstName,
+        lastName: req.body.lastName,
+        password: req.body.password,
+        homePlace: req.body.homePlace,
+        favPlace: req.body.favPlace,
       },
     };
 

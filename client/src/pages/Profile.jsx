@@ -1,17 +1,19 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import SearchPlace from "../components/SearchPlace";
 
 export default function Profiletest() {
-  // Add your code here
-  const id = sessionStorage.getItem("userId") || undefined;
-  const navigate = useNavigate();
-
   const [form, setForm] = useState({
     firstName: "",
     lastName: "",
     email: "",
     password: "",
+    homePlace: "",
+    favPlace: "",
   });
+
+  const id = sessionStorage.getItem("userId") || undefined;
+  const navigate = useNavigate();
 
   useEffect(() => {
     async function fetchData() {
@@ -36,9 +38,50 @@ export default function Profiletest() {
     return;
   }, [id, navigate]);
 
+  function updateForm(value) {
+    return setForm((prev) => {
+      return { ...prev, ...value };
+    });
+  }
+
+  async function onSubmit(e) {
+    e.preventDefault();
+    const person = { ...form };
+    try {
+      let response;
+
+      // if we are updating a record we will PATCH to /record/:id.
+      response = await fetch(
+        `http://localhost:5050/record/profile/${id.toString()}`,
+        {
+          method: "PATCH",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(person),
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+    } catch (error) {
+      console.error("A problem occurred adding or updating a record: ", error);
+    } finally {
+      setForm({
+        firstName: "",
+        lastName: "",
+        password: "",
+        homePlace: "",
+        favPlace: "",
+      });
+      navigate("/");
+    }
+  }
+
   return (
     // Add your JSX code here
-    <form>
+    <form onSubmit={onSubmit}>
       <div className="space-y-12">
         <div className="border-b border-gray-900/10 pb-12">
           <h2 className="text-base font-semibold leading-7 text-gray-900">
@@ -63,11 +106,11 @@ export default function Profiletest() {
                   id="firstName"
                   autoComplete="given-name"
                   value={form.firstName}
+                  onChange={(e) => updateForm({ firstName: e.target.value })}
                   className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                 />
               </div>
             </div>
-
             <div className="sm:col-span-3">
               <label
                 htmlFor="lastName"
@@ -82,6 +125,7 @@ export default function Profiletest() {
                   id="lastName"
                   autoComplete="family-name"
                   value={form.lastName}
+                  onChange={(e) => updateForm({ lastName: e.target.value })}
                   className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                 />
               </div>
@@ -104,7 +148,35 @@ export default function Profiletest() {
                 />
               </div>
             </div>
-
+            <div className="sm:col-span-3">
+              <label
+                htmlFor="homePlace"
+                className="block text-sm font-medium leading-6 text-gray-900"
+              >
+                Home
+              </label>
+              <div className="mt-2">
+                {/* <SearchPlace onPlaceSelect={handlePlaceSelect} /> */}
+              </div>
+            </div>
+            <div className="sm:col-span-3">
+              <label
+                htmlFor="favPlace"
+                className="block text-sm font-medium leading-6 text-gray-900"
+              >
+                Favorite place
+              </label>
+              <div className="mt-2">
+                <input
+                  type="text"
+                  name="favPlace"
+                  id="favPlace"
+                  value={form.favPlace}
+                  onChange={(e) => updateForm({ favPlace: e.target.value })}
+                  className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                />
+              </div>
+            </div>
             <div className="sm:col-span-4">
               <label
                 htmlFor="password"
