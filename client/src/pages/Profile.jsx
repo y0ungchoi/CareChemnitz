@@ -79,8 +79,11 @@ export default function Profiletest() {
     }
   }
 
+  function handlePlaceSelect(place) {
+    updateForm({ homePlace: place });
+  }
+
   return (
-    // Add your JSX code here
     <form onSubmit={onSubmit}>
       <div className="space-y-12">
         <div className="border-b border-gray-900/10 pb-12">
@@ -156,7 +159,18 @@ export default function Profiletest() {
                 Home
               </label>
               <div className="mt-2">
-                {/* <SearchPlace onPlaceSelect={handlePlaceSelect} /> */}
+                <SearchPlace onPlaceSelect={handlePlaceSelect} />
+              </div>
+              <div className="mt-2">
+                <input
+                  type="text"
+                  name="homePlace"
+                  id="homePlace"
+                  value={form.homePlace}
+                  onChange={(e) => updateForm({ homePlace: e.target.value })}
+                  className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                  readOnly
+                />
               </div>
             </div>
             <div className="sm:col-span-3">
@@ -203,6 +217,7 @@ export default function Profiletest() {
         <button
           type="button"
           className="text-sm font-semibold leading-6 text-gray-900"
+          onClick={() => navigate("/")}
         >
           Cancel
         </button>
