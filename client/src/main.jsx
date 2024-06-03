@@ -9,6 +9,7 @@ import Signup from "./components/Signup";
 import Profile from "./pages/Profile";
 import Logout from "./components/Logout";
 import Maps from "./components/Maps";
+import SearchPlace from "./components/SearchPlace";
 import "./index.css";
 
 const router = createBrowserRouter([
@@ -89,6 +90,16 @@ const router = createBrowserRouter([
       {
         path: "/maps",
         element: <Maps />,
+      },
+    ],
+  },
+  {
+    path: "/search",
+    element: <App />,
+    children: [
+      {
+        path: "/search",
+        element: <SearchPlace />,
       },
     ],
   },
