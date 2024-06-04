@@ -1,8 +1,9 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import SearchPlace from "../components/SearchPlace";
 
 export default function Profiletest() {
+  const [isEditMode, setIsEditMode] = useState(false);
   const [form, setForm] = useState({
     firstName: "",
     lastName: "",
@@ -44,15 +45,12 @@ export default function Profiletest() {
     });
   }
 
-  async function onSubmit(e) {
+  async function handleSubmit(e) {
     e.preventDefault();
     const person = { ...form };
     try {
-      let response;
-
-      // if we are updating a record we will PATCH to /record/:id.
-      response = await fetch(
-        `http://localhost:5050/record/profile/${id.toString()}`,
+      const response = await fetch(
+        `http://localhost:5050/record/profile/${id}`,
         {
           method: "PATCH",
           headers: {
@@ -65,168 +63,196 @@ export default function Profiletest() {
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
+
+      // Refetch the updated profile information
+      const updatedResponse = await fetch(
+        `http://localhost:5050/record/profile/${id}`
+      );
+      if (!updatedResponse.ok) {
+        throw new Error(`HTTP error! status: ${updatedResponse.status}`);
+      }
+      const updatedRecord = await updatedResponse.json();
+      setForm(updatedRecord);
+      setIsEditMode(false); // Exit edit mode after saving
     } catch (error) {
       console.error("A problem occurred adding or updating a record: ", error);
-    } finally {
-      setForm({
-        firstName: "",
-        lastName: "",
-        password: "",
-        homePlace: "",
-        favPlace: "",
-      });
     }
   }
 
-  function handlePlaceSelect(place) {
-    updateForm({ homePlace: place });
+  function toggleEditMode() {
+    setIsEditMode((prev) => !prev);
   }
 
   return (
-    <form onSubmit={onSubmit}>
-      <div className="space-y-12">
-        <div className="border-b border-gray-900/10 pb-12">
-          <h2 className="text-base font-semibold leading-7 text-gray-900">
-            Personal Information
-          </h2>
-          <p className="mt-1 text-sm leading-6 text-gray-600">
-            Use a permanent address where you can receive mail.
-          </p>
+    <div>
+      <form>
+        <div className="space-y-12">
+          <div className="border-b border-gray-900/10 pb-12">
+            <h2 className="text-base font-semibold leading-7 text-gray-900">
+              Personal Information
+            </h2>
 
-          <div className="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
-            <div className="sm:col-span-3">
-              <label
-                htmlFor="firstName"
-                className="block text-sm font-medium leading-6 text-gray-900"
-              >
-                First name
-              </label>
-              <div className="mt-2">
-                <input
-                  type="text"
-                  name="firstName"
-                  id="firstName"
-                  autoComplete="given-name"
-                  value={form.firstName}
-                  onChange={(e) => updateForm({ firstName: e.target.value })}
-                  className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                />
+            <div className="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
+              <div className="sm:col-span-3">
+                <label
+                  htmlFor="firstName"
+                  className="block text-sm font-medium leading-6 text-gray-900"
+                >
+                  First name
+                </label>
+                <div className="mt-2">
+                  <input
+                    type="text"
+                    name="firstName"
+                    id="firstName"
+                    autoComplete="given-name"
+                    value={form.firstName}
+                    onChange={(e) => updateForm({ firstName: e.target.value })}
+                    className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 "
+                    readOnly={!isEditMode}
+                  />
+                </div>
               </div>
-            </div>
-            <div className="sm:col-span-3">
-              <label
-                htmlFor="lastName"
-                className="block text-sm font-medium leading-6 text-gray-900"
-              >
-                Last name
-              </label>
-              <div className="mt-2">
-                <input
-                  type="text"
-                  name="lastName"
-                  id="lastName"
-                  autoComplete="family-name"
-                  value={form.lastName}
-                  onChange={(e) => updateForm({ lastName: e.target.value })}
-                  className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                />
+              <div className="sm:col-span-3">
+                <label
+                  htmlFor="lastName"
+                  className="block text-sm font-medium leading-6 text-gray-900"
+                >
+                  Last name
+                </label>
+                <div className="mt-2">
+                  <input
+                    type="text"
+                    name="lastName"
+                    id="lastName"
+                    autoComplete="family-name"
+                    value={form.lastName}
+                    onChange={(e) => updateForm({ lastName: e.target.value })}
+                    className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                    readOnly={!isEditMode}
+                  />
+                </div>
               </div>
-            </div>
-            <div className="sm:col-span-4">
-              <label
-                htmlFor="email"
-                className="block text-sm font-medium leading-6 text-gray-900"
-              >
-                Email address
-              </label>
-              <div className="mt-2">
-                <input
-                  id="email"
-                  name="email"
-                  type="email"
-                  autoComplete="email"
-                  value={form.email}
-                  className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                />
+              <div className="sm:col-span-4">
+                <label
+                  htmlFor="email"
+                  className="block text-sm font-medium leading-6 text-gray-900"
+                >
+                  Email address
+                </label>
+                <div className="mt-2">
+                  <input
+                    id="email"
+                    name="email"
+                    type="email"
+                    autoComplete="email"
+                    value={form.email}
+                    className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 sm:text-sm sm:leading-6"
+                    readOnly
+                  />
+                </div>
               </div>
-            </div>
-            <div className="sm:col-span-3">
-              <label
-                htmlFor="homePlace"
-                className="block text-sm font-medium leading-6 text-gray-900"
-              >
-                Home
-              </label>
-              <div className="mt-2">
-                <SearchPlace onPlaceSelect={handlePlaceSelect} />
+              <div className="sm:col-span-3">
+                <label
+                  htmlFor="homePlace"
+                  className="block text-sm font-medium leading-6 text-gray-900"
+                >
+                  Home
+                </label>
+                <div className="mt-2">
+                  {isEditMode ? (
+                    <SearchPlace
+                      onPlaceSelect={(place) =>
+                        updateForm({ homePlace: place })
+                      }
+                      item={form.homePlace}
+                      id="homePlace"
+                    />
+                  ) : (
+                    <input
+                      type="text"
+                      name="homePlace"
+                      id="homePlace"
+                      value={form.homePlace}
+                      className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                      readOnly
+                    />
+                  )}
+                </div>
               </div>
-              <div className="mt-2">
-                <input
-                  type="text"
-                  name="homePlace"
-                  id="homePlace"
-                  value={form.homePlace}
-                  onChange={(e) => updateForm({ homePlace: e.target.value })}
-                  className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                  readOnly
-                />
+              <div className="sm:col-span-3">
+                <label
+                  htmlFor="favPlace"
+                  className="block text-sm font-medium leading-6 text-gray-900"
+                >
+                  Favorite place
+                </label>
+                <div className="mt-2">
+                  {isEditMode ? (
+                    <SearchPlace
+                      onPlaceSelect={(place) => updateForm({ favPlace: place })}
+                      item={form.favPlace}
+                    />
+                  ) : (
+                    <input
+                      type="text"
+                      name="favPlace"
+                      id="favPlace"
+                      value={form.favPlace}
+                      className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                      readOnly
+                    />
+                  )}
+                </div>
               </div>
-            </div>
-            <div className="sm:col-span-3">
-              <label
-                htmlFor="favPlace"
-                className="block text-sm font-medium leading-6 text-gray-900"
-              >
-                Favorite place
-              </label>
-              <div className="mt-2">
-                <input
-                  type="text"
-                  name="favPlace"
-                  id="favPlace"
-                  value={form.favPlace}
-                  onChange={(e) => updateForm({ favPlace: e.target.value })}
-                  className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                />
-              </div>
-            </div>
-            <div className="sm:col-span-4">
-              <label
-                htmlFor="password"
-                className="block text-sm font-medium leading-6 text-gray-900"
-              >
-                Password
-              </label>
-              <div className="mt-2">
-                <input
-                  id="password"
-                  name="password"
-                  type="password"
-                  autoComplete="password"
-                  value={form.password}
-                  className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                />
+              <div className="sm:col-span-4">
+                <label
+                  htmlFor="password"
+                  className="block text-sm font-medium leading-6 text-gray-900"
+                >
+                  Password
+                </label>
+                <div className="mt-2">
+                  <input
+                    id="password"
+                    name="password"
+                    type="password"
+                    autoComplete="password"
+                    value={form.password}
+                    className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                    readOnly={!isEditMode}
+                  />
+                </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
-
+      </form>
       <div className="mt-6 flex items-center justify-end gap-x-6">
         <button
           type="button"
           className="text-sm font-semibold leading-6 text-gray-900"
-          onClick={() => navigate("/")}
+          // onClick={() => navigate("/")}
         >
           Cancel
         </button>
-        <button
-          type="submit"
-          className="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-        >
-          Save
-        </button>
+        {isEditMode ? (
+          <button
+            onClick={handleSubmit}
+            className="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+          >
+            Save
+          </button>
+        ) : (
+          <button
+            type="button"
+            onClick={toggleEditMode}
+            className="rounded-md bg-green-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-green-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-green-600"
+          >
+            Edit
+          </button>
+        )}
       </div>
-    </form>
+    </div>
   );
 }
