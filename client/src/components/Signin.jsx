@@ -16,7 +16,6 @@ export default function Signin() {
       body: JSON.stringify({ email, password }),
     });
     if (response.ok) {
-      console.log(response);
       const data = await response.json();
       sessionStorage.setItem("userId", data._id);
       navigate("/");
