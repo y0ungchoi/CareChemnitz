@@ -2,14 +2,11 @@ import * as React from "react";
 import * as ReactDOM from "react-dom/client";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import App from "./App";
-import Record from "./components/Record";
-import RecordList from "./components/RecordList";
-import Signin from "./components/Signin";
-import Signup from "./components/Signup";
+import Mainpage from "./pages/Mainpage";
+import Signin from "./pages/Signin";
+import Signup from "./pages/Signup";
 import Profile from "./pages/Profile";
-import Logout from "./components/Logout";
 import Maps from "./components/Maps";
-import SearchPlace from "./components/SearchPlace";
 import "./index.css";
 
 const router = createBrowserRouter([
@@ -19,27 +16,11 @@ const router = createBrowserRouter([
     children: [
       {
         path: "/",
-        element: <RecordList />,
+        element: <Mainpage />,
       },
-    ],
-  },
-  {
-    path: "/edit/:id",
-    element: <App />,
-    children: [
       {
-        path: "/edit/:id",
-        element: <Record />,
-      },
-    ],
-  },
-  {
-    path: "/create",
-    element: <App />,
-    children: [
-      {
-        path: "/create",
-        element: <Record />,
+        path: "/maps",
+        element: <Maps />,
       },
     ],
   },
@@ -70,36 +51,6 @@ const router = createBrowserRouter([
       {
         path: "/profile",
         element: <Profile />,
-      },
-    ],
-  },
-  {
-    path: "/logout",
-    element: <App />,
-    children: [
-      {
-        path: "/logout",
-        element: <Logout />,
-      },
-    ],
-  },
-  {
-    path: "/maps",
-    element: <App />,
-    children: [
-      {
-        path: "/maps",
-        element: <Maps />,
-      },
-    ],
-  },
-  {
-    path: "/search",
-    element: <App />,
-    children: [
-      {
-        path: "/search",
-        element: <SearchPlace />,
       },
     ],
   },
