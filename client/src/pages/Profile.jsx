@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import SearchPlace from "../components/SearchPlace";
 
-export default function Profiletest() {
+export default function Profile() {
   const [isEditMode, setIsEditMode] = useState(false);
   const [form, setForm] = useState({
     firstName: "",
@@ -182,7 +182,7 @@ export default function Profiletest() {
                       type="text"
                       name="homePlace"
                       id="homePlace"
-                      value={form.homePlace}
+                      value={form.homePlace ? form.homePlace : ""}
                       className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                       readOnly
                     />
@@ -201,13 +201,14 @@ export default function Profiletest() {
                     <SearchPlace
                       onPlaceSelect={(place) => updateForm({ favPlace: place })}
                       item={form.favPlace}
+                      id="favPlace"
                     />
                   ) : (
                     <input
                       type="text"
                       name="favPlace"
                       id="favPlace"
-                      value={form.favPlace}
+                      value={form.favPlace ? form.favPlace : ""}
                       className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                       readOnly
                     />
