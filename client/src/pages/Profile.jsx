@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import SearchPlace from "../components/SearchPlace";
 
@@ -12,7 +12,6 @@ export default function Profiletest() {
     homePlace: "",
     favPlace: "",
   });
-
   const id = sessionStorage.getItem("userId") || undefined;
   const navigate = useNavigate();
 
@@ -20,7 +19,7 @@ export default function Profiletest() {
     async function fetchData() {
       if (!id) return navigate("/signin");
       const response = await fetch(
-        `http://localhost:5050/record/profile/${id.toString()}`
+        `http://localhost:5050/record/profile/${id}`
       );
       if (!response.ok) {
         const message = `An error has occurred: ${response.statusText}`;
@@ -81,6 +80,16 @@ export default function Profiletest() {
 
   function toggleEditMode() {
     setIsEditMode((prev) => !prev);
+  }
+
+  async function deleteRecord(id) {
+    if (window.confirm("Are you sure you want to delete this record?")) {
+      await fetch(`http://localhost:5050/record/profile/${id}`, {
+        method: "DELETE",
+      });
+      sessionStorage.removeItem("userId");
+      navigate("/");
+    }
   }
 
   return (
@@ -216,8 +225,7 @@ export default function Profiletest() {
                   <input
                     id="password"
                     name="password"
-                    type="password"
-                    autoComplete="password"
+                    type="text"
                     value={form.password}
                     className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                     readOnly={!isEditMode}
@@ -231,8 +239,15 @@ export default function Profiletest() {
       <div className="mt-6 flex items-center justify-end gap-x-6">
         <button
           type="button"
+          className="rounded-md bg-red-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-600"
+          onClick={() => deleteRecord(id)}
+        >
+          Delete
+        </button>
+        <button
+          type="button"
           className="text-sm font-semibold leading-6 text-gray-900"
-          // onClick={() => navigate("/")}
+          onClick={() => navigate("/")}
         >
           Cancel
         </button>
