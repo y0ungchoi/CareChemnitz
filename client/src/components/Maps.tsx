@@ -156,9 +156,10 @@ export default function Maps() {
     <div>
       <form>
         <div className="row">
-          <div className="col-md-6">
+          <div className="col-md-6 flex flex-row">
+            <p>Filter</p>
             {Object.keys(colorMarker).map((name) => (
-              <div className="form-check m-3" key={name}>
+              <div className="form-check m-3 flex-auto" key={name}>
                 <input
                   className="form-check-input"
                   type="checkbox"
