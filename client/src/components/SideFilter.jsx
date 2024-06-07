@@ -49,7 +49,7 @@ export default function SideFilter(props) {
   return (
     <div>
       {/* Mobile filter dialog */}
-      <Transition show={props.mobileFiltersHandler()}>
+      <Transition show={() => props.mobileFiltersHandler()}>
         <Dialog
           className="relative z-40 lg:hidden"
           onClose={() => props.mobileFiltersHandler()}
