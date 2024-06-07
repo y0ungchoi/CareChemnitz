@@ -109,78 +109,55 @@ export default function SideFilter() {
                   </button>
                 </div>
 
-                {/* Filters */}
+                {/* Mobile Filters */}
                 <form className="mt-4 border-t border-gray-200">
                   <h3 className="sr-only">Categories</h3>
-                  <ul
-                    role="list"
-                    className="px-2 py-3 font-medium text-gray-900"
-                  >
-                    {subCategories.map((category) => (
-                      <li key={category.name}>
-                        <a href={category.href} className="block px-2 py-3">
-                          {category.name}
-                        </a>
-                      </li>
-                    ))}
-                  </ul>
-
                   {filters.map((section) => (
-                    <Disclosure
-                      as="div"
-                      key={section.id}
-                      className="border-t border-gray-200 px-4 py-6"
+                    <ul
+                      role="list"
+                      className="px-2 py-3 font-medium text-gray-900"
                     >
-                      {({ open }) => (
-                        <>
-                          <h3 className="-mx-2 -my-3 flow-root">
-                            <DisclosureButton className="flex w-full items-center justify-between bg-white px-2 py-3 text-gray-400 hover:text-gray-500">
-                              <span className="font-medium text-gray-900">
-                                {section.name}
-                              </span>
-                              <span className="ml-6 flex items-center">
-                                {open ? (
-                                  <MinusIcon
-                                    className="h-5 w-5"
-                                    aria-hidden="true"
-                                  />
-                                ) : (
-                                  <PlusIcon
-                                    className="h-5 w-5"
-                                    aria-hidden="true"
-                                  />
-                                )}
-                              </span>
-                            </DisclosureButton>
-                          </h3>
-                          <DisclosurePanel className="pt-6">
-                            <div className="space-y-6">
-                              {section.options.map((option, optionIdx) => (
-                                <div
-                                  key={option.value}
-                                  className="flex items-center"
-                                >
-                                  <input
-                                    id={`filter-mobile-${section.id}-${optionIdx}`}
-                                    name={`${section.id}[]`}
-                                    defaultValue={option.value}
-                                    type="checkbox"
-                                    defaultChecked={option.checked}
-                                    className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
-                                  />
-                                  <label
-                                    htmlFor={`filter-mobile-${section.id}-${optionIdx}`}
-                                    className="ml-3 min-w-0 flex-1 text-gray-500"
-                                  >
-                                    {option.label}
-                                  </label>
-                                </div>
-                              ))}
+                      <li key={section.name}>
+                        <input
+                          className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
+                          type="checkbox"
+                          name={section.name}
+                          value={section.name}
+                          id={`filter-mobile-${section.name}`}
+                        />
+                        <label
+                          htmlFor={`filter-mobile-${section.id}`}
+                          className="ml-3 min-w-0 flex-1 text-gray-900"
+                        >
+                          {section.name}
+                        </label>
+                      </li>
+
+                      {section.options &&
+                        section.options.map((option, optionIdx) => (
+                          <div className="pl-6 space-y-6">
+                            <div
+                              key={option.value}
+                              className="flex items-center"
+                            >
+                              <input
+                                id={`filter-mobile-${section.id}-${optionIdx}`}
+                                name={`${section.id}[]`}
+                                defaultValue={option.value}
+                                type="checkbox"
+                                defaultChecked={option.checked}
+                                className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
+                              />
+                              <label
+                                htmlFor={`filter-mobile-${section.id}-${optionIdx}`}
+                                className="ml-3 min-w-0 flex-1 text-gray-600"
+                              >
+                                {option.label}
+                              </label>
                             </div>
-                          </DisclosurePanel>
-                        </>
-                      )}
-                    </Disclosure>
+                          </div>
+                        ))}
+                    </ul>
                   ))}
                 </form>
               </DialogPanel>
@@ -207,10 +184,9 @@ export default function SideFilter() {
 
         <section aria-labelledby="products-heading" className="pb-24 pt-6">
           <div className="grid grid-cols-1 gap-x-8 gap-y-10 lg:grid-cols-4">
-            {/* Filters */}
+            {/* Web Filters */}
             <form className="hidden lg:block">
               <h3 className="sr-only">Categories</h3>
-              {/* Sub filters */}
               {filters.map((section) => (
                 <ul
                   role="list"
@@ -232,9 +208,9 @@ export default function SideFilter() {
                     </label>
                   </li>
 
-                  {section.options ? (
-                    <div className="pl-6 space-y-4">
-                      {section.options.map((option, optionIdx) => (
+                  {section.options &&
+                    section.options.map((option, optionIdx) => (
+                      <div className="pl-6 space-y-4">
                         <li key={option.value} className="flex items-center">
                           <input
                             id={`filter-${section.id}-${optionIdx}`}
@@ -251,9 +227,8 @@ export default function SideFilter() {
                             {option.label}
                           </label>
                         </li>
-                      ))}
-                    </div>
-                  ) : null}
+                      </div>
+                    ))}
                 </ul>
               ))}
             </form>
