@@ -4,32 +4,12 @@ import { useState } from "react";
 import {
   Dialog,
   DialogPanel,
-  Disclosure,
-  DisclosureButton,
-  DisclosurePanel,
-  Menu,
-  MenuButton,
-  MenuItem,
-  MenuItems,
   Transition,
   TransitionChild,
 } from "@headlessui/react";
 import { XMarkIcon } from "@heroicons/react/24/outline";
-import {
-  ChevronDownIcon,
-  FunnelIcon,
-  MinusIcon,
-  PlusIcon,
-  Squares2X2Icon,
-} from "@heroicons/react/20/solid";
 import Maps from "../components/Maps";
 
-const subCategories = [
-  { name: "Jugendberufshilfen", href: "#" },
-  { name: "Kindertageseinrichtungen", href: "#" },
-  { name: "Schulen", href: "#" },
-  { name: "Schulsozialarbeit", href: "#" },
-];
 const filters = [
   {
     id: "Jugendberufshilfen",
@@ -57,9 +37,7 @@ function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
 }
 
-export default function SideFilter() {
-  const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false);
-
+export default function SideFilter(props) {
   function toggleCheckbox(id) {
     const checkboxes = document.getElementsByName(id);
     console.log("check : " + checkboxes);
@@ -71,10 +49,10 @@ export default function SideFilter() {
   return (
     <div>
       {/* Mobile filter dialog */}
-      <Transition show={mobileFiltersOpen}>
+      <Transition show={props.mobileFiltersHandler()}>
         <Dialog
           className="relative z-40 lg:hidden"
-          onClose={setMobileFiltersOpen}
+          onClose={() => props.mobileFiltersHandler()}
         >
           <TransitionChild
             enter="transition-opacity ease-linear duration-300"
@@ -102,7 +80,7 @@ export default function SideFilter() {
                   <button
                     type="button"
                     className="-mr-2 flex h-10 w-10 items-center justify-center rounded-md bg-white p-2 text-gray-400"
-                    onClick={() => setMobileFiltersOpen(false)}
+                    onClick={() => props.mobileFiltersHandler()}
                   >
                     <span className="sr-only">Close menu</span>
                     <XMarkIcon className="h-6 w-6" aria-hidden="true" />
@@ -167,21 +145,6 @@ export default function SideFilter() {
       </Transition>
 
       <main>
-        <div className="flex items-baseline justify-between border-b border-gray-200 pb-6 pt-24">
-          <h1 className="text-4xl font-bold tracking-tight text-gray-900"></h1>
-
-          <div className="flex items-center">
-            <button
-              type="button"
-              className="-m-2 ml-4 p-2 text-gray-400 hover:text-gray-500 sm:ml-6 lg:hidden"
-              onClick={() => setMobileFiltersOpen(true)}
-            >
-              <span className="sr-only">Filters</span>
-              <FunnelIcon className="h-5 w-5" aria-hidden="true" />
-            </button>
-          </div>
-        </div>
-
         <section aria-labelledby="products-heading" className="pb-24 pt-6">
           <div className="grid grid-cols-1 gap-x-8 gap-y-10 lg:grid-cols-4">
             {/* Web Filters */}
@@ -232,11 +195,6 @@ export default function SideFilter() {
                 </ul>
               ))}
             </form>
-
-            {/* Product grid */}
-            <div className="lg:col-span-3">
-              <Maps />
-            </div>
           </div>
         </section>
       </main>
