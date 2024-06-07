@@ -144,60 +144,54 @@ export default function SideFilter(props) {
         </Dialog>
       </Transition>
 
-      <main>
-        <section aria-labelledby="products-heading" className="pb-24 pt-6">
-          <div className="grid grid-cols-1 gap-x-8 gap-y-10 lg:grid-cols-4">
-            {/* Web Filters */}
-            <form className="hidden lg:block">
-              <h3 className="sr-only">Categories</h3>
-              {filters.map((section) => (
-                <ul
-                  role="list"
-                  className="space-y-4 pb-6 text-sm font-medium text-gray-900"
-                >
-                  <li key={section.name}>
+      {/* Web Filters */}
+      <form className="hidden lg:block">
+        <h3 className="sr-only">Categories</h3>
+        {filters.map((section) => (
+          <ul
+            role="list"
+            className="space-y-4 pb-6 text-sm font-medium text-gray-900"
+          >
+            <li key={section.name}>
+              <input
+                className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
+                type="checkbox"
+                name={section.name}
+                value={section.name}
+                id={`checkbox-${section.name}`}
+              />
+              <label
+                className="ml-3 font-medium text-gray-900"
+                htmlFor={`checkbox-${section.name}`}
+              >
+                {section.name}
+              </label>
+            </li>
+
+            {section.options &&
+              section.options.map((option, optionIdx) => (
+                <div className="pl-6 space-y-4">
+                  <li key={option.value} className="flex items-center">
                     <input
-                      className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
+                      id={`filter-${section.id}-${optionIdx}`}
+                      name={section.id}
+                      defaultValue={option.value}
                       type="checkbox"
-                      name={section.name}
-                      value={section.name}
-                      id={`checkbox-${section.name}`}
+                      defaultChecked={option.checked}
+                      className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
                     />
                     <label
-                      className="ml-3 font-medium text-gray-900"
-                      htmlFor={`checkbox-${section.name}`}
+                      htmlFor={`filter-${section.id}-${optionIdx}`}
+                      className="ml-3 text-sm text-gray-600"
                     >
-                      {section.name}
+                      {option.label}
                     </label>
                   </li>
-
-                  {section.options &&
-                    section.options.map((option, optionIdx) => (
-                      <div className="pl-6 space-y-4">
-                        <li key={option.value} className="flex items-center">
-                          <input
-                            id={`filter-${section.id}-${optionIdx}`}
-                            name={section.id}
-                            defaultValue={option.value}
-                            type="checkbox"
-                            defaultChecked={option.checked}
-                            className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
-                          />
-                          <label
-                            htmlFor={`filter-${section.id}-${optionIdx}`}
-                            className="ml-3 text-sm text-gray-600"
-                          >
-                            {option.label}
-                          </label>
-                        </li>
-                      </div>
-                    ))}
-                </ul>
+                </div>
               ))}
-            </form>
-          </div>
-        </section>
-      </main>
+          </ul>
+        ))}
+      </form>
     </div>
   );
 }

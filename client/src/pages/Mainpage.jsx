@@ -2,6 +2,7 @@ import { useState } from "react";
 
 import Maps from "../components/Maps";
 import SideFilter from "../components/SideFilter";
+import SlidePanel from "../components/SlidePanel";
 import { FunnelIcon } from "@heroicons/react/20/solid";
 
 export default function Mainpage() {
@@ -30,10 +31,17 @@ export default function Mainpage() {
             </button>
           </div>
         </div>
-        <SideFilter mobileFiltersHandler={mobileFiltersHandler} />
-        <div className="lg:col-span-3">
-          <Maps />
-        </div>
+        <section aria-labelledby="products-heading" className="pb-24 pt-6">
+          <div className="grid grid-cols-1 gap-x-8 gap-y-10 lg:grid-cols-4">
+            <SideFilter mobileFiltersHandler={mobileFiltersHandler} />
+            <div className="lg:col-span-2">
+              <Maps />
+            </div>
+            <div className="lg:col-1">
+              <SlidePanel />
+            </div>
+          </div>
+        </section>
       </div>
     </main>
   );
