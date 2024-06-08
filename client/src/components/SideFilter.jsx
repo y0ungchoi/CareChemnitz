@@ -94,8 +94,9 @@ export default function SideFilter(props) {
                     <ul
                       role="list"
                       className="px-2 py-3 font-medium text-gray-900"
+                      key={`filter-mobile-${section.name}`}
                     >
-                      <li key={section.name}>
+                      <li>
                         <input
                           className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
                           type="checkbox"
@@ -113,11 +114,8 @@ export default function SideFilter(props) {
 
                       {section.options &&
                         section.options.map((option, optionIdx) => (
-                          <div className="pl-6 space-y-6">
-                            <div
-                              key={option.value}
-                              className="flex items-center"
-                            >
+                          <div key={option.value} className="pl-6 space-y-6">
+                            <li className="flex items-center">
                               <input
                                 id={`filter-mobile-${section.id}-${optionIdx}`}
                                 name={`${section.id}[]`}
@@ -132,7 +130,7 @@ export default function SideFilter(props) {
                               >
                                 {option.label}
                               </label>
-                            </div>
+                            </li>
                           </div>
                         ))}
                     </ul>
@@ -151,8 +149,9 @@ export default function SideFilter(props) {
           <ul
             role="list"
             className="space-y-4 pb-6 text-sm font-medium text-gray-900"
+            key={section.name}
           >
-            <li key={section.name}>
+            <li>
               <input
                 className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
                 type="checkbox"
@@ -170,7 +169,7 @@ export default function SideFilter(props) {
 
             {section.options &&
               section.options.map((option, optionIdx) => (
-                <div className="pl-6 space-y-4">
+                <div key={option.value} className="pl-6 space-y-4">
                   <li key={option.value} className="flex items-center">
                     <input
                       id={`filter-${section.id}-${optionIdx}`}
