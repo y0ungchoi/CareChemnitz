@@ -153,12 +153,13 @@ export default function Maps() {
   };
 
   return (
-    <div>
-      <form>
+    <div className="w-full h-full">
+      {/* <form>
         <div className="row">
-          <div className="col-md-6">
+          <div className="col-md-6 flex flex-row">
+            <p>Filter</p>
             {Object.keys(colorMarker).map((name) => (
-              <div className="form-check m-3" key={name}>
+              <div className="form-check m-3 flex-auto" key={name}>
                 <input
                   className="form-check-input"
                   type="checkbox"
@@ -177,9 +178,9 @@ export default function Maps() {
             ))}
           </div>
         </div>
-      </form>
+      </form> */}
 
-      <div className="border rounded-lg overflow-hidden">
+      {/* <div className="border rounded-lg overflow-hidden">
         <div className="relative w-full overflow-auto">
           <table className="w-full caption-bottom text-sm">
             <thead className="[&amp;_tr]:border-b">
@@ -216,44 +217,42 @@ export default function Maps() {
             </tbody>
           </table>
         </div>
-      </div>
-      <div style={{ height: "500px", width: "500px", position: "relative" }}>
-        <APIProvider
-          apiKey={mapkey}
-          onLoad={() => console.log("Maps API has loaded.")}
+      </div> */}
+      <APIProvider
+        apiKey={mapkey}
+        onLoad={() => console.log("Maps API has loaded.")}
+      >
+        <Map
+          defaultZoom={13}
+          defaultCenter={{ lat: 50.82765448060148, lng: 12.921883532093682 }}
+          // onCameraChanged={(ev: MapCameraChangedEvent) =>
+          //   console.log(
+          //     "camera changed:",
+          //     ev.detail.center,
+          //     "zoom:",
+          //     ev.detail.zoom
+          //   )
+          // }
         >
-          <Map
-            defaultZoom={13}
-            defaultCenter={{ lat: 50.82765448060148, lng: 12.921883532093682 }}
-            onCameraChanged={(ev: MapCameraChangedEvent) =>
-              console.log(
-                "camera changed:",
-                ev.detail.center,
-                "zoom:",
-                ev.detail.zoom
-              )
-            }
-          >
-            {!loading &&
-              geojsonData?.flatMap((geojson) =>
-                geojson.features.map((feature, index) => (
-                  <Marker
-                    key={index}
-                    position={{
-                      lat: feature.geometry.coordinates[1],
-                      lng: feature.geometry.coordinates[0],
-                    }}
-                    icon={{
-                      url: `http://maps.google.com/mapfiles/ms/icons/${
-                        colorMarker[geojson.name]
-                      }-dot.png`,
-                    }}
-                  />
-                ))
-              )}
-          </Map>
-        </APIProvider>
-      </div>
+          {!loading &&
+            geojsonData?.flatMap((geojson) =>
+              geojson.features.map((feature, index) => (
+                <Marker
+                  key={index}
+                  position={{
+                    lat: feature.geometry.coordinates[1],
+                    lng: feature.geometry.coordinates[0],
+                  }}
+                  icon={{
+                    url: `http://maps.google.com/mapfiles/ms/icons/${
+                      colorMarker[geojson.name]
+                    }-dot.png`,
+                  }}
+                />
+              ))
+            )}
+        </Map>
+      </APIProvider>
     </div>
   );
 }
