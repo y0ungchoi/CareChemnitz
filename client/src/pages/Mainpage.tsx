@@ -1,8 +1,7 @@
 import { useState } from "react";
-
-import Maps from "../components/Maps";
 import SideFilter from "../components/SideFilter";
 import SlidePanel from "../components/SlidePanel";
+import Maps, { GeojsonResponse } from "../components/Maps";
 import { FunnelIcon } from "@heroicons/react/20/solid";
 
 export interface FacilityInfo {
@@ -14,6 +13,8 @@ export default function Mainpage() {
   const [facilityInfo, setFacilityInfo] = useState<FacilityInfo>({
     facilities: [],
   });
+  const [geojsonData, setGeojsonData] = useState<GeojsonResponse | null>(null);
+  const [loading, setLoading] = useState(true);
 
   const mobileFiltersHandler = () => {
     setIsMobileFiltersOpen((prev) => !prev);
@@ -40,16 +41,22 @@ export default function Mainpage() {
         <section aria-labelledby="products-heading" className="pb-24 pt-6">
           <div className="grid grid-cols-1 gap-x-8 gap-y-10 lg:grid-cols-4">
             <SideFilter
-              mobileFiltersHandler={mobileFiltersHandler}
               isMobileFiltersOpen={isMobileFiltersOpen}
+              mobileFiltersHandler={mobileFiltersHandler}
               facilityInfo={facilityInfo}
               setFacilityInfo={setFacilityInfo}
             />
             <div className="lg:col-span-2">
-              <Maps facilities={facilityInfo.facilities} />
+              <Maps
+                facilityInfo={facilityInfo}
+                geojsonData={geojsonData}
+                setGeojsonData={setGeojsonData}
+                loading={loading}
+                setLoading={setLoading}
+              />
             </div>
             <div className="lg:col-1">
-              <SlidePanel />
+              <SlidePanel geojsonData={geojsonData} loading={loading} />
             </div>
           </div>
         </section>
