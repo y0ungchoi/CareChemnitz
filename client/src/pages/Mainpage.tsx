@@ -5,8 +5,15 @@ import SideFilter from "../components/SideFilter";
 import SlidePanel from "../components/SlidePanel";
 import { FunnelIcon } from "@heroicons/react/20/solid";
 
+export interface FacilityInfo {
+  facilities: string[];
+}
+
 export default function Mainpage() {
   const [isMobileFiltersOpen, setIsMobileFiltersOpen] = useState(false);
+  const [facilityInfo, setFacilityInfo] = useState<FacilityInfo>({
+    facilities: [],
+  });
 
   const mobileFiltersHandler = () => {
     setIsMobileFiltersOpen((prev) => !prev);
@@ -35,9 +42,11 @@ export default function Mainpage() {
             <SideFilter
               mobileFiltersHandler={mobileFiltersHandler}
               isMobileFiltersOpen={isMobileFiltersOpen}
+              facilityInfo={facilityInfo}
+              setFacilityInfo={setFacilityInfo}
             />
             <div className="lg:col-span-2">
-              <Maps />
+              <Maps facilities={facilityInfo.facilities} />
             </div>
             <div className="lg:col-1">
               <SlidePanel />

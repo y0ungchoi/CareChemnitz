@@ -1,6 +1,5 @@
 //Tailwind filter example
 //https://tailwindui.com/components/ecommerce/components/category-filters
-import { useState } from "react";
 import {
   Dialog,
   DialogPanel,
@@ -8,7 +7,7 @@ import {
   TransitionChild,
 } from "@headlessui/react";
 import { XMarkIcon } from "@heroicons/react/24/outline";
-import Maps from "../components/Maps";
+import { FacilityInfo } from "../pages/Mainpage";
 
 const filters = [
   {
@@ -33,26 +32,42 @@ const filters = [
   },
 ];
 
-function classNames(...classes) {
-  return classes.filter(Boolean).join(" ");
+interface SideFilterProps {
+  isMobileFiltersOpen: boolean;
+  mobileFiltersHandler: () => void;
+  facilityInfo: FacilityInfo;
+  setFacilityInfo: (info: FacilityInfo) => void;
 }
 
-export default function SideFilter(props) {
-  function toggleCheckbox(id) {
-    const checkboxes = document.getElementsByName(id);
-    console.log("check : " + checkboxes);
-    for (let i = 0; i < checkboxes.length; i++) {
-      checkboxes[i].checked = id.checked;
+export default function SideFilter({
+  isMobileFiltersOpen,
+  mobileFiltersHandler,
+  facilityInfo,
+  setFacilityInfo,
+}: SideFilterProps) {
+  const handleFilterChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { value, checked } = e.target;
+    const { facilities } = facilityInfo;
+
+    if (checked) {
+      setFacilityInfo({
+        facilities: [...facilities, value],
+      });
+    } else {
+      setFacilityInfo({
+        facilities: facilities.filter((facility) => facility !== value),
+      });
     }
-  }
+    console.log(facilityInfo);
+  };
 
   return (
     <div>
       {/* Mobile filter dialog */}
-      <Transition show={props.isMobileFiltersOpen}>
+      <Transition show={isMobileFiltersOpen}>
         <Dialog
           className="relative z-40 lg:hidden"
-          onClose={props.mobileFiltersHandler}
+          onClose={mobileFiltersHandler}
         >
           <TransitionChild
             enter="transition-opacity ease-linear duration-300"
@@ -80,7 +95,7 @@ export default function SideFilter(props) {
                   <button
                     type="button"
                     className="-mr-2 flex h-10 w-10 items-center justify-center rounded-md bg-white p-2 text-gray-400"
-                    onClick={props.mobileFiltersHandler}
+                    onClick={mobileFiltersHandler}
                   >
                     <span className="sr-only">Close menu</span>
                     <XMarkIcon className="h-6 w-6" aria-hidden="true" />
@@ -92,9 +107,9 @@ export default function SideFilter(props) {
                   <h3 className="sr-only">Categories</h3>
                   {filters.map((section) => (
                     <ul
+                      key={`filter-mobile-${section.name}`}
                       role="list"
                       className="px-2 py-3 font-medium text-gray-900"
-                      key={`filter-mobile-${section.name}`}
                     >
                       <li>
                         <input
@@ -103,6 +118,7 @@ export default function SideFilter(props) {
                           name={section.name}
                           value={section.name}
                           id={`filter-mobile-${section.name}`}
+                          onChange={handleFilterChange}
                         />
                         <label
                           htmlFor={`filter-mobile-${section.id}`}
@@ -147,9 +163,9 @@ export default function SideFilter(props) {
         <h3 className="sr-only">Categories</h3>
         {filters.map((section) => (
           <ul
+            key={section.name}
             role="list"
             className="space-y-4 pb-6 text-sm font-medium text-gray-900"
-            key={section.name}
           >
             <li>
               <input
@@ -158,6 +174,7 @@ export default function SideFilter(props) {
                 name={section.name}
                 value={section.name}
                 id={`checkbox-${section.name}`}
+                onChange={handleFilterChange}
               />
               <label
                 className="ml-3 font-medium text-gray-900"
@@ -176,7 +193,6 @@ export default function SideFilter(props) {
                       name={section.id}
                       defaultValue={option.value}
                       type="checkbox"
-                      defaultChecked={option.checked}
                       className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
                     />
                     <label

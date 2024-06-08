@@ -5,6 +5,7 @@ import {
   MapCameraChangedEvent,
   Marker,
 } from "@vis.gl/react-google-maps";
+import { FacilityInfo } from "../pages/Mainpage";
 
 type GeojsonFeature = {
   geometry: {
@@ -34,8 +35,6 @@ type GeojsonData = {
 };
 
 type GeojsonResponse = GeojsonData[];
-
-type facilityInfo = { facilities: string[] };
 
 const colorMarker: { [key: string]: string } = {
   Jugendberufshilfen: "red",
@@ -82,15 +81,11 @@ function Facility({
   );
 }
 
-export default function Maps() {
+export default function Maps({ facilities }: FacilityInfo) {
   const mapkey = import.meta.env.VITE_MAPS_API_KEY;
 
   const [geojsonData, setGeojsonData] = useState<GeojsonResponse | null>(null);
   const [loading, setLoading] = useState(true);
-
-  const [facilityInfo, setFacilityInfo] = useState<facilityInfo>({
-    facilities: [],
-  });
 
   useEffect(() => {
     async function getFacilities(facilities: string[]) {
@@ -111,12 +106,12 @@ export default function Maps() {
       setGeojsonData(geojsonData);
       setLoading(false);
     }
-    if (facilityInfo.facilities.length > 0) {
-      getFacilities(facilityInfo.facilities);
+    if (facilities.length > 0) {
+      getFacilities(facilities);
     } else {
       setGeojsonData(null);
     }
-  }, [facilityInfo.facilities]);
+  }, [facilities]);
 
   const facilityList = () => {
     if (!geojsonData) {
@@ -135,21 +130,6 @@ export default function Maps() {
         />
       ))
     );
-  };
-
-  const handleChange = (e: { target: { value: any; checked: any } }) => {
-    const { value, checked } = e.target;
-    const { facilities } = facilityInfo;
-
-    if (checked) {
-      setFacilityInfo({
-        facilities: [...facilities, value],
-      });
-    } else {
-      setFacilityInfo({
-        facilities: facilities.filter((e) => e !== value),
-      });
-    }
   };
 
   return (
@@ -180,7 +160,7 @@ export default function Maps() {
         </div>
       </form> */}
 
-      {/* <div className="border rounded-lg overflow-hidden">
+      <div className="border rounded-lg overflow-hidden">
         <div className="relative w-full overflow-auto">
           <table className="w-full caption-bottom text-sm">
             <thead className="[&amp;_tr]:border-b">
@@ -217,7 +197,7 @@ export default function Maps() {
             </tbody>
           </table>
         </div>
-      </div> */}
+      </div>
       <APIProvider
         apiKey={mapkey}
         onLoad={() => console.log("Maps API has loaded.")}
