@@ -58,7 +58,6 @@ export default function SideFilter({
         facilities: facilities.filter((facility) => facility !== value),
       });
     }
-    console.log(facilityInfo);
   };
 
   return (
