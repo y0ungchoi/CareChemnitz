@@ -49,10 +49,10 @@ export default function SideFilter(props) {
   return (
     <div>
       {/* Mobile filter dialog */}
-      <Transition show={() => props.mobileFiltersHandler()}>
+      <Transition show={props.isMobileFiltersOpen}>
         <Dialog
           className="relative z-40 lg:hidden"
-          onClose={() => props.mobileFiltersHandler()}
+          onClose={props.mobileFiltersHandler}
         >
           <TransitionChild
             enter="transition-opacity ease-linear duration-300"
@@ -80,7 +80,7 @@ export default function SideFilter(props) {
                   <button
                     type="button"
                     className="-mr-2 flex h-10 w-10 items-center justify-center rounded-md bg-white p-2 text-gray-400"
-                    onClick={() => props.mobileFiltersHandler()}
+                    onClick={props.mobileFiltersHandler}
                   >
                     <span className="sr-only">Close menu</span>
                     <XMarkIcon className="h-6 w-6" aria-hidden="true" />
