@@ -6,7 +6,6 @@ import Mainpage from "./pages/Mainpage";
 import Signin from "./pages/Signin";
 import Signup from "./pages/Signup";
 import Profile from "./pages/Profile";
-import Maps from "./components/Maps";
 import "./index.css";
 
 const router = createBrowserRouter([
@@ -16,11 +15,7 @@ const router = createBrowserRouter([
     children: [
       {
         path: "/",
-        element: <Maps />,
-      },
-      {
-        path: "/maps",
-        element: <Maps />,
+        element: <Mainpage />,
       },
     ],
   },
