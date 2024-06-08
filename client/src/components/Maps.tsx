@@ -225,14 +225,14 @@ export default function Maps() {
         <Map
           defaultZoom={13}
           defaultCenter={{ lat: 50.82765448060148, lng: 12.921883532093682 }}
-          onCameraChanged={(ev: MapCameraChangedEvent) =>
-            console.log(
-              "camera changed:",
-              ev.detail.center,
-              "zoom:",
-              ev.detail.zoom
-            )
-          }
+          // onCameraChanged={(ev: MapCameraChangedEvent) =>
+          //   console.log(
+          //     "camera changed:",
+          //     ev.detail.center,
+          //     "zoom:",
+          //     ev.detail.zoom
+          //   )
+          // }
         >
           {!loading &&
             geojsonData?.flatMap((geojson) =>
