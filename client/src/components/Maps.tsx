@@ -88,45 +88,44 @@ export default function Maps({
   }, [facilityInfo.facilities]);
 
   return (
-    <div className="w-full h-full">
-      <div className="border rounded-lg overflow-hidden">
-        <div className="relative w-full overflow-auto"></div>
-      </div>
-      <APIProvider
-        apiKey={mapkey}
-        // onLoad={() => console.log("Maps API has loaded.")}
-      >
-        <Map
-          defaultZoom={13}
-          defaultCenter={{ lat: 50.82765448060148, lng: 12.921883532093682 }}
-          // onCameraChanged={(ev: MapCameraChangedEvent) =>
-          //   console.log(
-          //     "camera changed:",
-          //     ev.detail.center,
-          //     "zoom:",
-          //     ev.detail.zoom
-          //   )
-          // }
+    <div className="relative w-full pb-[75%]">
+      <div className="absolute top-0 left-0 w-full h-full">
+        <APIProvider
+          apiKey={mapkey}
+          // onLoad={() => console.log("Maps API has loaded.")}
         >
-          {!loading &&
-            geojsonData?.flatMap((geojson) =>
-              geojson.features.map((feature, index) => (
-                <Marker
-                  key={index}
-                  position={{
-                    lat: feature.geometry.coordinates[1],
-                    lng: feature.geometry.coordinates[0],
-                  }}
-                  icon={{
-                    url: `http://maps.google.com/mapfiles/ms/icons/${
-                      colorMarker[geojson.name]
-                    }-dot.png`,
-                  }}
-                />
-              ))
-            )}
-        </Map>
-      </APIProvider>
+          <Map
+            defaultZoom={13}
+            defaultCenter={{ lat: 50.82765448060148, lng: 12.921883532093682 }}
+            // onCameraChanged={(ev: MapCameraChangedEvent) =>
+            //   console.log(
+            //     "camera changed:",
+            //     ev.detail.center,
+            //     "zoom:",
+            //     ev.detail.zoom
+            //   )
+            // }
+          >
+            {!loading &&
+              geojsonData?.flatMap((geojson) =>
+                geojson.features.map((feature, index) => (
+                  <Marker
+                    key={index}
+                    position={{
+                      lat: feature.geometry.coordinates[1],
+                      lng: feature.geometry.coordinates[0],
+                    }}
+                    icon={{
+                      url: `http://maps.google.com/mapfiles/ms/icons/${
+                        colorMarker[geojson.name]
+                      }-dot.png`,
+                    }}
+                  />
+                ))
+              )}
+          </Map>
+        </APIProvider>
+      </div>
     </div>
   );
 }
