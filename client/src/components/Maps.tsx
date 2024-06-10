@@ -1,10 +1,5 @@
 import { useEffect } from "react";
-import {
-  APIProvider,
-  Map,
-  MapCameraChangedEvent,
-  Marker,
-} from "@vis.gl/react-google-maps";
+import { APIProvider, Map, Marker } from "@vis.gl/react-google-maps";
 import { FacilityInfo } from "../pages/Mainpage";
 
 export type GeojsonFeature = {
@@ -23,6 +18,7 @@ export type GeojsonFeature = {
     URL: string; // Website: Kindertageseinrichtung
     PLZ: string;
     ORT: string;
+    Creator: string;
     X: string;
     Y: string;
   };
@@ -90,21 +86,10 @@ export default function Maps({
   return (
     <div className="relative w-full pb-[75%]">
       <div className="absolute top-0 left-0 w-full h-full">
-        <APIProvider
-          apiKey={mapkey}
-          // onLoad={() => console.log("Maps API has loaded.")}
-        >
+        <APIProvider apiKey={mapkey}>
           <Map
             defaultZoom={13}
             defaultCenter={{ lat: 50.82765448060148, lng: 12.921883532093682 }}
-            // onCameraChanged={(ev: MapCameraChangedEvent) =>
-            //   console.log(
-            //     "camera changed:",
-            //     ev.detail.center,
-            //     "zoom:",
-            //     ev.detail.zoom
-            //   )
-            // }
           >
             {!loading &&
               geojsonData?.flatMap((geojson) =>
