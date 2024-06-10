@@ -24,8 +24,10 @@ export default function Mainpage() {
     setIsMobileFiltersOpen((prev) => !prev);
   };
 
-  const handleMarkerClick = (name: string, feature: GeojsonFeature) => {
-    setSelectedFacility({ name, feature });
+  const handleFacilityClick = (
+    facilityFeature: { name: string; feature: GeojsonFeature } | null
+  ) => {
+    setSelectedFacility(facilityFeature);
   };
 
   return (
@@ -61,15 +63,18 @@ export default function Mainpage() {
                 setGeojsonData={setGeojsonData}
                 loading={loading}
                 setLoading={setLoading}
-                onMarkerClick={handleMarkerClick}
+                handleFacilityClick={(name, feature) =>
+                  handleFacilityClick({ name, feature })
+                }
+                selectedFacility={selectedFacility}
               />
             </div>
-            <div className="lg:col-1">
+            <div className="lg:col-span-1">
               <SlidePanel
                 geojsonData={geojsonData}
                 loading={loading}
                 selectedFacility={selectedFacility}
-                setSelectedFacility={setSelectedFacility}
+                handleFacilityClick={handleFacilityClick}
               />
             </div>
           </div>

@@ -43,8 +43,8 @@ type SlidePanelProps = {
   geojsonData: GeojsonResponse | null;
   loading: boolean;
   selectedFacility: { name: string; feature: GeojsonFeature } | null;
-  setSelectedFacility: (
-    facility: { name: string; feature: GeojsonFeature } | null
+  handleFacilityClick: (
+    facilityFeature: { name: string; feature: GeojsonFeature } | null
   ) => void;
 };
 
@@ -52,14 +52,10 @@ export default function SlidePanel({
   geojsonData,
   loading,
   selectedFacility,
-  setSelectedFacility,
+  handleFacilityClick,
 }: SlidePanelProps) {
-  const handleFacilityClick = (name: string, feature: GeojsonFeature) => {
-    setSelectedFacility({ name, feature });
-  };
-
   const handleBackClick = () => {
-    setSelectedFacility(null);
+    handleFacilityClick(null);
   };
 
   const facilityList = () => {
@@ -83,7 +79,9 @@ export default function SlidePanel({
           feature={feature}
           name={geojson.name}
           key={`${index}-${featureIndex}`}
-          handleFacilityClick={() => handleFacilityClick(geojson.name, feature)}
+          handleFacilityClick={() =>
+            handleFacilityClick({ name: geojson.name, feature })
+          }
         />
       ))
     );

@@ -45,7 +45,8 @@ type MapsProps = {
   setGeojsonData: (geojsonData: GeojsonResponse | null) => void;
   loading: boolean;
   setLoading: (loading: boolean) => void;
-  onMarkerClick: (name: string, feature: GeojsonFeature) => void;
+  handleFacilityClick: (name: string, feature: GeojsonFeature) => void;
+  selectedFacility: { name: string; feature: GeojsonFeature } | null;
 };
 
 export default function Maps({
@@ -54,7 +55,8 @@ export default function Maps({
   setGeojsonData,
   loading,
   setLoading,
-  onMarkerClick,
+  handleFacilityClick,
+  selectedFacility,
 }: MapsProps) {
   const mapkey = import.meta.env.VITE_MAPS_API_KEY;
 
@@ -95,21 +97,30 @@ export default function Maps({
           >
             {!loading &&
               geojsonData?.flatMap((geojson) =>
-                geojson.features.map((feature, index) => (
-                  <Marker
-                    key={index}
-                    position={{
-                      lat: feature.geometry.coordinates[1],
-                      lng: feature.geometry.coordinates[0],
-                    }}
-                    icon={{
-                      url: `http://maps.google.com/mapfiles/ms/icons/${
-                        colorMarker[geojson.name]
-                      }-dot.png`,
-                    }}
-                    onClick={() => onMarkerClick(geojson.name, feature)}
-                  />
-                ))
+                geojson.features.map((feature, index) => {
+                  const isSelected =
+                    selectedFacility &&
+                    selectedFacility.feature.geometry.coordinates[0] ===
+                      feature.geometry.coordinates[0] &&
+                    selectedFacility.feature.geometry.coordinates[1] ===
+                      feature.geometry.coordinates[1];
+
+                  return (
+                    <Marker
+                      key={index}
+                      position={{
+                        lat: feature.geometry.coordinates[1],
+                        lng: feature.geometry.coordinates[0],
+                      }}
+                      icon={{
+                        url: `http://maps.google.com/mapfiles/ms/icons/${
+                          isSelected ? "purple" : colorMarker[geojson.name]
+                        }-dot.png`,
+                      }}
+                      onClick={() => handleFacilityClick(geojson.name, feature)}
+                    />
+                  );
+                })
               )}
           </Map>
         </APIProvider>
