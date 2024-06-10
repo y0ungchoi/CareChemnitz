@@ -26,14 +26,30 @@ function Facility({
   }
 
   return (
-    <tr className="border-b transition-colors hover:bg-muted/50 data-[state=selected]:bg-muted">
-      <td className="p-4 align-middle">{name}</td>
-      <td className="p-4 align-middle">{facilityName}</td>
-      <td className="p-4 align-middle">{address}</td>
-      <td className="p-4 align-middle">{contact}</td>
-      <td className="p-4 align-middle">{feature.geometry.coordinates[0]}</td>
-      <td className="p-4 align-middle">{feature.geometry.coordinates[1]}</td>
-    </tr>
+    // <tr className="border-b transition-colors hover:bg-muted/50 data-[state=selected]:bg-muted">
+    //   <td className="p-4 align-middle">{name}</td>
+    //   <td className="p-4 align-middle">{facilityName}</td>
+    //   <td className="p-4 align-middle">{address}</td>
+    //   <td className="p-4 align-middle">{contact}</td>
+    //   <td className="p-4 align-middle">{feature.geometry.coordinates[0]}</td>
+    //   <td className="p-4 align-middle">{feature.geometry.coordinates[1]}</td>
+    // </tr>
+
+    <li className="flex justify-between gap-x-6 py-5 hover:bg-gray-200">
+      <div className="flex min-w-0 gap-x-4">
+        <a className="min-w-0 flex-auto">
+          <p className="text-sm font-semibold leading-6 text-gray-900">
+            {facilityName}
+          </p>
+          <p className="mt-1 truncate text-xs leading-5 text-gray-500">
+            {name}
+          </p>
+          <p className="mt-1 truncate text-xs leading-5 text-gray-500">
+            {address}
+          </p>
+        </a>
+      </div>
+    </li>
   );
 }
 
@@ -46,9 +62,15 @@ export default function SlidePanel({ geojsonData, loading }: SlidePanelProps) {
   const facilityList = () => {
     if (!geojsonData) {
       return (
-        <tr>
-          <td colSpan={6}>No data available</td>
-        </tr>
+        <li className="flex justify-between gap-x-6 py-5">
+          <div className="flex min-w-0 gap-x-4">
+            <div className="min-w-0 flex-auto">
+              <p className="text-sm font-semibold leading-6 text-gray-900">
+                No data available
+              </p>
+            </div>
+          </div>
+        </li>
       );
     }
     return geojsonData.flatMap((geojson, index) =>
@@ -63,40 +85,8 @@ export default function SlidePanel({ geojsonData, loading }: SlidePanelProps) {
   };
 
   return (
-    <div className="border-solid border-2 border-indigo-600">
-      <table className="w-full caption-bottom text-sm">
-        <thead className="[&amp;_tr]:border-b">
-          <tr className="border-b transition-colors hover:bg-muted/50 data-[state=selected]:bg-muted">
-            <th className="h-12 px-4 text-left align-middle font-medium text-muted-foreground [&amp;:has([role=checkbox])]:pr-0">
-              Filter
-            </th>
-            <th className="h-12 px-4 text-left align-middle font-medium text-muted-foreground [&amp;:has([role=checkbox])]:pr-0">
-              Name
-            </th>
-            <th className="h-12 px-4 text-left align-middle font-medium text-muted-foreground [&amp;:has([role=checkbox])]:pr-0">
-              Address
-            </th>
-            <th className="h-12 px-4 text-left align-middle font-medium text-muted-foreground [&amp;:has([role=checkbox])]:pr-0">
-              Contact
-            </th>
-            <th className="h-12 px-4 text-left align-middle font-medium text-muted-foreground [&amp;:has([role=checkbox])]:pr-0">
-              x
-            </th>
-            <th className="h-12 px-4 text-left align-middle font-medium text-muted-foreground [&amp;:has([role=checkbox])]:pr-0">
-              y
-            </th>
-          </tr>
-        </thead>
-        <tbody className="[&amp;_tr:last-child]:border-0">
-          {loading ? (
-            <tr>
-              <td colSpan={6}>Loading...</td>
-            </tr>
-          ) : (
-            facilityList()
-          )}
-        </tbody>
-      </table>
-    </div>
+    <ul role="list" className="divide-y divide-gray-100">
+      {facilityList()}
+    </ul>
   );
 }
