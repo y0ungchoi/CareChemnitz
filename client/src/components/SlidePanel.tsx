@@ -54,11 +54,13 @@ type SlidePanelProps = {
 
 export default function SlidePanel({ geojsonData, loading }: SlidePanelProps) {
   const [isSelectedFacility, setIsSelectedFacility] = useState(false);
-  const [selectedFacility, setSelectedFacility] =
-    useState<GeojsonFeature | null>(null);
+  const [selectedFacility, setSelectedFacility] = useState<{
+    name: string;
+    feature: GeojsonFeature;
+  } | null>(null);
 
-  function handleFacilityClick(feature: GeojsonFeature) {
-    setSelectedFacility(feature);
+  function handleFacilityClick(name: string, feature: GeojsonFeature) {
+    setSelectedFacility({ name, feature });
     setIsSelectedFacility(true);
   }
 
@@ -88,7 +90,7 @@ export default function SlidePanel({ geojsonData, loading }: SlidePanelProps) {
           feature={feature}
           name={geojson.name}
           key={`${index}-${featureIndex}`}
-          isOpenDetail={() => handleFacilityClick(feature)}
+          isOpenDetail={() => handleFacilityClick(geojson.name, feature)}
         />
       ))
     );
@@ -99,6 +101,7 @@ export default function SlidePanel({ geojsonData, loading }: SlidePanelProps) {
 
     const {
       BEZEICHNUNG,
+      TRAEGER,
       STRASSE,
       PLZ,
       ORT,
@@ -107,25 +110,23 @@ export default function SlidePanel({ geojsonData, loading }: SlidePanelProps) {
       WWW,
       URL,
       HAUSBEZ,
-    } = selectedFacility.properties;
+    } = selectedFacility.feature.properties;
 
-    let facilityName = BEZEICHNUNG || "";
+    let facilityName = TRAEGER || "";
     let address = `${STRASSE}, ${PLZ} ${ORT}`;
     let contact = TELEFON;
     let website = WWW || URL || "";
 
-    if (selectedFacility.properties.BEZEICHNUNG) {
-      facilityName = selectedFacility.properties.BEZEICHNUNG;
+    if (selectedFacility.name === "Schulen") {
+      facilityName = BEZEICHNUNG;
       contact = `${contact}, ${EMAIL}`;
-      website = WWW;
-    }
-
-    if (selectedFacility.properties.HAUSBEZ) {
-      let old = selectedFacility.properties.BEZEICHNUNG;
+      // website = feature.properties.WWW;
+    } else if (selectedFacility.name === "Kindertageseinrichtungen") {
+      let old = BEZEICHNUNG;
       facilityName = old.substring(old.indexOf('"') + 1, old.lastIndexOf('"'));
       address = `${STRASSE} ${HAUSBEZ}, ${PLZ} ${ORT}`;
       contact = `${TELEFON}, ${EMAIL}`;
-      website = URL;
+      // website = feature.properties.URL;
     }
 
     return (
