@@ -45,6 +45,7 @@ type MapsProps = {
   setGeojsonData: (geojsonData: GeojsonResponse | null) => void;
   loading: boolean;
   setLoading: (loading: boolean) => void;
+  onMarkerClick: (name: string, feature: GeojsonFeature) => void;
 };
 
 export default function Maps({
@@ -53,6 +54,7 @@ export default function Maps({
   setGeojsonData,
   loading,
   setLoading,
+  onMarkerClick,
 }: MapsProps) {
   const mapkey = import.meta.env.VITE_MAPS_API_KEY;
 
@@ -105,6 +107,7 @@ export default function Maps({
                         colorMarker[geojson.name]
                       }-dot.png`,
                     }}
+                    onClick={() => onMarkerClick(geojson.name, feature)}
                   />
                 ))
               )}

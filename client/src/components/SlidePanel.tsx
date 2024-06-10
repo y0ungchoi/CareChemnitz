@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { GeojsonResponse, GeojsonFeature } from "./Maps";
 
 function Facility({
@@ -43,24 +42,25 @@ function Facility({
 type SlidePanelProps = {
   geojsonData: GeojsonResponse | null;
   loading: boolean;
+  selectedFacility: { name: string; feature: GeojsonFeature } | null;
+  setSelectedFacility: (
+    facility: { name: string; feature: GeojsonFeature } | null
+  ) => void;
 };
 
-export default function SlidePanel({ geojsonData, loading }: SlidePanelProps) {
-  const [isSelectedFacility, setIsSelectedFacility] = useState(false);
-  const [selectedFacility, setSelectedFacility] = useState<{
-    name: string;
-    feature: GeojsonFeature;
-  } | null>(null);
-
-  function handleFacilityClick(name: string, feature: GeojsonFeature) {
+export default function SlidePanel({
+  geojsonData,
+  loading,
+  selectedFacility,
+  setSelectedFacility,
+}: SlidePanelProps) {
+  const handleFacilityClick = (name: string, feature: GeojsonFeature) => {
     setSelectedFacility({ name, feature });
-    setIsSelectedFacility(true);
-  }
+  };
 
-  function handleBackClick() {
+  const handleBackClick = () => {
     setSelectedFacility(null);
-    setIsSelectedFacility(false);
-  }
+  };
 
   const facilityList = () => {
     if (!geojsonData) {
@@ -111,8 +111,8 @@ export default function SlidePanel({ geojsonData, loading }: SlidePanelProps) {
     let contact = TELEFON;
     let website = WWW || URL || "";
     let creator = Creator;
-    let lat = selectedFacility.feature.geometry.coordinates[0];
-    let lng = selectedFacility.feature.geometry.coordinates[1];
+    let lat = selectedFacility.feature.geometry.coordinates[1];
+    let lng = selectedFacility.feature.geometry.coordinates[0];
 
     if (selectedFacility.name === "Schulen") {
       facilityName = BEZEICHNUNG;
@@ -166,7 +166,7 @@ export default function SlidePanel({ geojsonData, loading }: SlidePanelProps) {
             </div>
           </li>
         </ul>
-      ) : isSelectedFacility ? (
+      ) : selectedFacility ? (
         facilityDetail()
       ) : (
         <ul role="list" className="divide-y divide-gray-100">

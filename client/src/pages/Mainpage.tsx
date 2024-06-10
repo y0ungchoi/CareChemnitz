@@ -1,7 +1,7 @@
 import { useState } from "react";
 import SideFilter from "../components/SideFilter";
 import SlidePanel from "../components/SlidePanel";
-import Maps, { GeojsonResponse } from "../components/Maps";
+import Maps, { GeojsonFeature, GeojsonResponse } from "../components/Maps";
 import { FunnelIcon } from "@heroicons/react/20/solid";
 
 export interface FacilityInfo {
@@ -15,9 +15,17 @@ export default function Mainpage() {
   });
   const [geojsonData, setGeojsonData] = useState<GeojsonResponse | null>(null);
   const [loading, setLoading] = useState(true);
+  const [selectedFacility, setSelectedFacility] = useState<{
+    name: string;
+    feature: GeojsonFeature;
+  } | null>(null);
 
   const mobileFiltersHandler = () => {
     setIsMobileFiltersOpen((prev) => !prev);
+  };
+
+  const handleMarkerClick = (name: string, feature: GeojsonFeature) => {
+    setSelectedFacility({ name, feature });
   };
 
   return (
@@ -53,10 +61,16 @@ export default function Mainpage() {
                 setGeojsonData={setGeojsonData}
                 loading={loading}
                 setLoading={setLoading}
+                onMarkerClick={handleMarkerClick}
               />
             </div>
             <div className="lg:col-1">
-              <SlidePanel geojsonData={geojsonData} loading={loading} />
+              <SlidePanel
+                geojsonData={geojsonData}
+                loading={loading}
+                selectedFacility={selectedFacility}
+                setSelectedFacility={setSelectedFacility}
+              />
             </div>
           </div>
         </section>
