@@ -59,6 +59,7 @@ export default function SideFilter({
       });
     }
   };
+  const isChecked = (value: string) => facilityInfo.facilities.includes(value);
 
   return (
     <div>
@@ -117,6 +118,7 @@ export default function SideFilter({
                           name={section.name}
                           value={section.name}
                           id={`filter-mobile-${section.name}`}
+                          checked={isChecked(section.name)}
                           onChange={handleFilterChange}
                         />
                         <label
@@ -136,6 +138,7 @@ export default function SideFilter({
                                 name={`${section.id}[]`}
                                 defaultValue={option.value}
                                 type="checkbox"
+                                checked={isChecked(option.value)}
                                 defaultChecked={option.checked}
                                 className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
                               />
@@ -173,6 +176,7 @@ export default function SideFilter({
                 name={section.name}
                 value={section.name}
                 id={`checkbox-${section.name}`}
+                checked={isChecked(section.name)}
                 onChange={handleFilterChange}
               />
               <label
@@ -192,6 +196,7 @@ export default function SideFilter({
                       name={section.id}
                       defaultValue={option.value}
                       type="checkbox"
+                      checked={isChecked(option.value)}
                       className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
                     />
                     <label

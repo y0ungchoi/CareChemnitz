@@ -3,41 +3,27 @@ import { GeojsonResponse, GeojsonFeature } from "./Maps";
 function Facility({
   feature,
   name,
+  handleFacilityClick,
 }: {
   feature: GeojsonFeature;
   name: string;
+  handleFacilityClick: () => void;
 }) {
   let facilityName = feature.properties.TRAEGER;
   let address = `${feature.properties.STRASSE}, ${feature.properties.PLZ} ${feature.properties.ORT}`;
-  let contact = feature.properties.TELEFON;
-  let website = "";
-  let creator = "GISAdminChemnitz";
 
   if (name === "Schulen") {
     facilityName = feature.properties.BEZEICHNUNG;
-    contact = `${contact}, ${feature.properties.EMAIL}`;
-    website = feature.properties.WWW;
   } else if (name === "Kindertageseinrichtungen") {
     let old = feature.properties.BEZEICHNUNG;
     facilityName = old.substring(old.indexOf('"') + 1, old.lastIndexOf('"'));
     address = `${feature.properties.STRASSE} ${feature.properties.HAUSBEZ}, ${feature.properties.PLZ} ${feature.properties.ORT}`;
-    contact = `${feature.properties.TELEFON}, ${feature.properties.EMAIL}`;
-    website = feature.properties.URL;
   }
 
   return (
-    // <tr className="border-b transition-colors hover:bg-muted/50 data-[state=selected]:bg-muted">
-    //   <td className="p-4 align-middle">{name}</td>
-    //   <td className="p-4 align-middle">{facilityName}</td>
-    //   <td className="p-4 align-middle">{address}</td>
-    //   <td className="p-4 align-middle">{contact}</td>
-    //   <td className="p-4 align-middle">{feature.geometry.coordinates[0]}</td>
-    //   <td className="p-4 align-middle">{feature.geometry.coordinates[1]}</td>
-    // </tr>
-
     <li className="flex justify-between gap-x-6 py-5 hover:bg-gray-200">
       <div className="flex min-w-0 gap-x-4">
-        <a className="min-w-0 flex-auto">
+        <a className="min-w-0 flex-auto" onClick={handleFacilityClick}>
           <p className="text-sm font-semibold leading-6 text-gray-900">
             {facilityName}
           </p>
@@ -56,9 +42,22 @@ function Facility({
 type SlidePanelProps = {
   geojsonData: GeojsonResponse | null;
   loading: boolean;
+  selectedFacility: { name: string; feature: GeojsonFeature } | null;
+  handleFacilityClick: (
+    facilityFeature: { name: string; feature: GeojsonFeature } | null
+  ) => void;
 };
 
-export default function SlidePanel({ geojsonData, loading }: SlidePanelProps) {
+export default function SlidePanel({
+  geojsonData,
+  loading,
+  selectedFacility,
+  handleFacilityClick,
+}: SlidePanelProps) {
+  const handleBackClick = () => {
+    handleFacilityClick(null);
+  };
+
   const facilityList = () => {
     if (!geojsonData) {
       return (
@@ -73,32 +72,105 @@ export default function SlidePanel({ geojsonData, loading }: SlidePanelProps) {
         </li>
       );
     }
+
     return geojsonData.flatMap((geojson, index) =>
       geojson.features.map((feature, featureIndex) => (
         <Facility
           feature={feature}
           name={geojson.name}
           key={`${index}-${featureIndex}`}
+          handleFacilityClick={() =>
+            handleFacilityClick({ name: geojson.name, feature })
+          }
         />
       ))
     );
   };
 
+  const facilityDetail = () => {
+    if (!selectedFacility) return null;
+
+    const {
+      BEZEICHNUNG,
+      TRAEGER,
+      STRASSE,
+      PLZ,
+      ORT,
+      TELEFON,
+      EMAIL,
+      WWW,
+      URL,
+      HAUSBEZ,
+      Creator,
+    } = selectedFacility.feature.properties;
+
+    let facilityName = TRAEGER || "";
+    let address = `${STRASSE}, ${PLZ} ${ORT}`;
+    let contact = TELEFON;
+    let website = WWW || URL || "";
+    let creator = Creator;
+    let lat = selectedFacility.feature.geometry.coordinates[1];
+    let lng = selectedFacility.feature.geometry.coordinates[0];
+
+    if (selectedFacility.name === "Schulen") {
+      facilityName = BEZEICHNUNG;
+      contact = `${contact}, ${EMAIL}`;
+    } else if (selectedFacility.name === "Kindertageseinrichtungen") {
+      let old = BEZEICHNUNG;
+      facilityName = old.substring(old.indexOf('"') + 1, old.lastIndexOf('"'));
+      address = `${STRASSE} ${HAUSBEZ}, ${PLZ} ${ORT}`;
+      contact = `${TELEFON}, ${EMAIL}`;
+    }
+
+    return (
+      <div className="p-4">
+        <button onClick={handleBackClick} className="mb-4 text-blue-500">
+          &larr; Back
+        </button>
+        <h2 className="text-xl font-bold">{facilityName}</h2>
+        <p>{address}</p>
+        <p>{contact}</p>
+        <p>{creator}</p>
+        <p>{lat}</p>
+        <p>{lng}</p>
+
+        {website && (
+          <p>
+            <a
+              href={website}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-blue-500"
+            >
+              Website
+            </a>
+          </p>
+        )}
+      </div>
+    );
+  };
+
   return (
-    <ul role="list" className="divide-y divide-gray-100 overflow-y-auto h-dvh">
+    <div className="h-dvh overflow-y-auto">
       {loading ? (
-        <li className="flex justify-between gap-x-6 py-5">
-          <div className="flex min-w-0 gap-x-4">
-            <div className="min-w-0 flex-auto">
-              <p className="text-sm font-semibold leading-6 text-gray-900">
-                Loading...
-              </p>
+        <ul role="list" className="divide-y divide-gray-100">
+          <li className="flex justify-between gap-x-6 py-5">
+            <div className="flex min-w-0 gap-x-4">
+              <div className="min-w-0 flex-auto">
+                <p className="text-sm font-semibold leading-6 text-gray-900">
+                  Loading...
+                </p>
+              </div>
             </div>
-          </div>
-        </li>
+          </li>
+        </ul>
+      ) : selectedFacility ? (
+        facilityDetail()
       ) : (
-        facilityList()
+        <ul role="list" className="divide-y divide-gray-100">
+          {facilityList()}
+        </ul>
       )}
-    </ul>
+    </div>
   );
 }

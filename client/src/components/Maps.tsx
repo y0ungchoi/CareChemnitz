@@ -1,10 +1,5 @@
 import { useEffect } from "react";
-import {
-  APIProvider,
-  Map,
-  MapCameraChangedEvent,
-  Marker,
-} from "@vis.gl/react-google-maps";
+import { APIProvider, Map, Marker } from "@vis.gl/react-google-maps";
 import { FacilityInfo } from "../pages/Mainpage";
 
 export type GeojsonFeature = {
@@ -23,6 +18,7 @@ export type GeojsonFeature = {
     URL: string; // Website: Kindertageseinrichtung
     PLZ: string;
     ORT: string;
+    Creator: string;
     X: string;
     Y: string;
   };
@@ -49,6 +45,8 @@ type MapsProps = {
   setGeojsonData: (geojsonData: GeojsonResponse | null) => void;
   loading: boolean;
   setLoading: (loading: boolean) => void;
+  handleFacilityClick: (name: string, feature: GeojsonFeature) => void;
+  selectedFacility: { name: string; feature: GeojsonFeature } | null;
 };
 
 export default function Maps({
@@ -57,6 +55,8 @@ export default function Maps({
   setGeojsonData,
   loading,
   setLoading,
+  handleFacilityClick,
+  selectedFacility,
 }: MapsProps) {
   const mapkey = import.meta.env.VITE_MAPS_API_KEY;
 
@@ -90,38 +90,37 @@ export default function Maps({
   return (
     <div className="relative w-full pb-[75%]">
       <div className="absolute top-0 left-0 w-full h-full">
-        <APIProvider
-          apiKey={mapkey}
-          // onLoad={() => console.log("Maps API has loaded.")}
-        >
+        <APIProvider apiKey={mapkey}>
           <Map
             defaultZoom={13}
             defaultCenter={{ lat: 50.82765448060148, lng: 12.921883532093682 }}
-            // onCameraChanged={(ev: MapCameraChangedEvent) =>
-            //   console.log(
-            //     "camera changed:",
-            //     ev.detail.center,
-            //     "zoom:",
-            //     ev.detail.zoom
-            //   )
-            // }
           >
             {!loading &&
               geojsonData?.flatMap((geojson) =>
-                geojson.features.map((feature, index) => (
-                  <Marker
-                    key={index}
-                    position={{
-                      lat: feature.geometry.coordinates[1],
-                      lng: feature.geometry.coordinates[0],
-                    }}
-                    icon={{
-                      url: `http://maps.google.com/mapfiles/ms/icons/${
-                        colorMarker[geojson.name]
-                      }-dot.png`,
-                    }}
-                  />
-                ))
+                geojson.features.map((feature, index) => {
+                  const isSelected =
+                    selectedFacility &&
+                    selectedFacility.feature.geometry.coordinates[0] ===
+                      feature.geometry.coordinates[0] &&
+                    selectedFacility.feature.geometry.coordinates[1] ===
+                      feature.geometry.coordinates[1];
+
+                  return (
+                    <Marker
+                      key={index}
+                      position={{
+                        lat: feature.geometry.coordinates[1],
+                        lng: feature.geometry.coordinates[0],
+                      }}
+                      icon={{
+                        url: `http://maps.google.com/mapfiles/ms/icons/${
+                          isSelected ? "purple" : colorMarker[geojson.name]
+                        }-dot.png`,
+                      }}
+                      onClick={() => handleFacilityClick(geojson.name, feature)}
+                    />
+                  );
+                })
               )}
           </Map>
         </APIProvider>
