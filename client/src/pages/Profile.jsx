@@ -89,7 +89,7 @@ export default function Profile() {
       await fetch(`http://localhost:5050/record/profile/${id}`, {
         method: "DELETE",
       });
-      sessionStorage.removeItem("userId");
+      sessionStorage.clear();
       navigate("/");
     }
   }
