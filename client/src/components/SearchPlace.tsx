@@ -12,7 +12,7 @@ type Place = {
 };
 
 interface SearchPlaceProps {
-  onPlaceSelect: (place: string) => void;
+  onPlaceSelect: (placeName: string) => void;
   item: string;
   id: string;
 }
@@ -43,9 +43,9 @@ function SearchPlace({ onPlaceSelect, item, id }: SearchPlaceProps) {
     setAutoCompletePlaces(data.suggestions);
   }
 
-  function handlePlaceSelect(value: string) {
-    setSelected(value);
-    onPlaceSelect(value);
+  function handlePlaceSelect(placeName: string) {
+    setSelected(placeName);
+    onPlaceSelect(placeName);
   }
 
   return (
