@@ -133,6 +133,7 @@ export default function SlidePanel({
         <p>{creator}</p>
         <p>{lat}</p>
         <p>{lng}</p>
+        <button onClick={handleFavClick}>Favorite</button>
 
         {website && (
           <p>
@@ -149,6 +150,10 @@ export default function SlidePanel({
       </div>
     );
   };
+
+  function handleFavClick () {
+    console.log('Favorited')
+  }
 
   return (
     <div className="h-dvh overflow-y-auto">
