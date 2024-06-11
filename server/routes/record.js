@@ -70,6 +70,8 @@ router.patch("/profile/:id", async (req, res) => {
         password: req.body.password,
         homePlace: req.body.homePlace,
         favPlace: req.body.favPlace,
+        homeLocation: req.body.homeLocation,
+        favLocation: req.body.favLocation,
       },
     };
     let result = await collection.updateOne(query, updates);

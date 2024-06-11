@@ -11,6 +11,8 @@ export default function Profile() {
     password: "",
     homePlace: "",
     favPlace: "",
+    homeLocation: { lat: null, lng: null },
+    favLocation: { lat: null, lng: null },
   });
   const id = sessionStorage.getItem("userId") || undefined;
   const navigate = useNavigate();
@@ -92,6 +94,43 @@ export default function Profile() {
     }
   }
 
+  async function handleSetLocation(placeName, placeType, placeLocation) {
+    const mapkey = import.meta.env.VITE_MAPS_API_KEY;
+    let location = { lat: 2, lng: 2 };
+    let lat = 0;
+    let lng = 0;
+
+    console.log(placeName);
+    const response = await fetch(
+      `https://places.googleapis.com/v1/places:searchText?textQuery=${placeName}`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "X-Goog-Api-Key": mapkey,
+          "X-Goog-FieldMask": "places.location",
+        },
+      }
+    );
+    if (!response.ok) {
+      console.error("Failed to fetch autocomplete data");
+      return;
+    }
+    const data = await response.json();
+    console.log(data.places);
+    data.places.forEach((place) => {
+      location = place.location;
+      lat = location.latitude;
+      lng = location.longitude;
+      location = { lat, lng };
+    });
+    console.log(location);
+    updateForm({
+      [placeType]: placeName,
+      [placeLocation]: location,
+    });
+  }
+
   return (
     <div>
       <form>
@@ -171,8 +210,12 @@ export default function Profile() {
                 <div className="mt-2">
                   {isEditMode ? (
                     <SearchPlace
-                      onPlaceSelect={(place) =>
-                        updateForm({ homePlace: place })
+                      onPlaceSelect={(placeName) =>
+                        handleSetLocation(
+                          placeName,
+                          "homePlace",
+                          "homeLocation"
+                        )
                       }
                       item={form.homePlace}
                       id="homePlace"
@@ -199,7 +242,9 @@ export default function Profile() {
                 <div className="mt-2">
                   {isEditMode ? (
                     <SearchPlace
-                      onPlaceSelect={(place) => updateForm({ favPlace: place })}
+                      onPlaceSelect={(placeName) =>
+                        handleSetLocation(placeName, "favPlace", "favLocation")
+                      }
                       item={form.favPlace}
                       id="favPlace"
                     />
