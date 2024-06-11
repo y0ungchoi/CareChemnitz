@@ -122,6 +122,18 @@ export default function Maps({
                   );
                 })
               )}
+            <Marker
+              key="home"
+              position={{ lat: 50.820186199999995, lng: 12.9398292 }}
+              icon={{
+                url: "../src/assets/homeMarker.png",
+              }}
+            />
+            <Marker
+              key="favPlace"
+              position={{ lat: 50.820186199999995, lng: 13.9398292 }}
+              icon={{ url: "../src/assets/favMarker.png" }}
+            />
           </Map>
         </APIProvider>
       </div>
