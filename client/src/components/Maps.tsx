@@ -59,6 +59,10 @@ export default function Maps({
   selectedFacility,
 }: MapsProps) {
   const mapkey = import.meta.env.VITE_MAPS_API_KEY;
+  const homeLocation = JSON.parse(
+    sessionStorage.getItem("homeLocation") || "{}"
+  );
+  const favLocation = JSON.parse(sessionStorage.getItem("favLocation") || "{}");
 
   useEffect(() => {
     async function getFacilities(facilityInfo: FacilityInfo) {
@@ -124,14 +128,14 @@ export default function Maps({
               )}
             <Marker
               key="home"
-              position={{ lat: 50.820186199999995, lng: 12.9398292 }}
+              position={{ lat: homeLocation.lat, lng: homeLocation.lng }}
               icon={{
                 url: "../src/assets/homeMarker.png",
               }}
             />
             <Marker
               key="favPlace"
-              position={{ lat: 50.820186199999995, lng: 13.9398292 }}
+              position={{ lat: favLocation.lat, lng: favLocation.lng }}
               icon={{ url: "../src/assets/favMarker.png" }}
             />
           </Map>
