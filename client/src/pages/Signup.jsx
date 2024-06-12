@@ -77,7 +77,7 @@ export default function Signup() {
       console.error("A problem occurred adding or updating a record: ", error);
     } finally {
       setForm({ firstName: "", lastName: "", email: "", password: "" });
-      navigate("/");
+      navigate("/signIn");
     }
   }
   return (
