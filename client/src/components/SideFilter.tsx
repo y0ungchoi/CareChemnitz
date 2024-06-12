@@ -122,7 +122,7 @@ export default function SideFilter({
                           onChange={handleFilterChange}
                         />
                         <label
-                          htmlFor={`filter-mobile-${section.id}`}
+                          htmlFor={`filter-mobile-${section.name}`}
                           className="ml-3 min-w-0 flex-1 text-gray-900"
                         >
                           {section.name}
