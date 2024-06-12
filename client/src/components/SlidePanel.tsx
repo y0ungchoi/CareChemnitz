@@ -57,6 +57,7 @@ export default function SlidePanel({
   const handleBackClick = () => {
     handleFacilityClick(null);
   };
+  const id = sessionStorage.getItem("userId") || undefined;
 
   const facilityList = () => {
     if (!geojsonData) {
@@ -133,7 +134,6 @@ export default function SlidePanel({
         <p>{creator}</p>
         <p>{lat}</p>
         <p>{lng}</p>
-
         {website && (
           <p>
             <a
@@ -146,9 +146,47 @@ export default function SlidePanel({
             </a>
           </p>
         )}
+        <button onClick={() => handleFavClick({ facilityName, lat, lng })}>
+          Favorite
+        </button>
       </div>
     );
   };
+
+  async function handleFavClick({
+    facilityName,
+    lat,
+    lng,
+  }: {
+    facilityName: string;
+    lat: number;
+    lng: number;
+  }) {
+    try {
+      const response = await fetch(
+        `http://localhost:5050/record/profile/${id}`,
+        {
+          method: "PATCH",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            favPlace: facilityName,
+            location: {
+              lat: lat,
+              lng: lng,
+            },
+          }),
+        }
+      );
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      sessionStorage.setItem("favLocation", JSON.stringify({ lat, lng }));
+    } catch (error) {
+      console.error("A problem occurred adding or updating a record: ", error);
+    }
+  }
 
   return (
     <div className="h-dvh overflow-y-auto">

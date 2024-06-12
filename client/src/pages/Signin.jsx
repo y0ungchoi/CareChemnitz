@@ -18,6 +18,23 @@ export default function Signin() {
     if (response.ok) {
       const data = await response.json();
       sessionStorage.setItem("userId", data._id);
+      {
+        data.homeLocation
+          ? sessionStorage.setItem(
+              "homeLocation",
+              JSON.stringify(data.homeLocation)
+            )
+          : null;
+      }
+      {
+        data.favLocation
+          ? sessionStorage.setItem(
+              "favLocation",
+              JSON.stringify(data.favLocation)
+            )
+          : null;
+      }
+      console.log(data.homeLocation);
       navigate("/");
     } else {
       alert("Invalid credentials");
