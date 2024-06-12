@@ -34,7 +34,6 @@ export default function Signin() {
             )
           : null;
       }
-      console.log(data.homeLocation);
       navigate("/");
     } else {
       alert("Invalid credentials");
