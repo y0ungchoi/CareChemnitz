@@ -10,12 +10,6 @@ import { ObjectId } from "mongodb";
 const router = express.Router();
 const collection = await db.collection("users");
 
-// This section will help you get a list of all the records.
-router.get("/", async (req, res) => {
-  let results = await collection.find({}).toArray();
-  res.send(results).status(200);
-});
-
 router.post("/signup", async (req, res) => {
   try {
     let newDocument = {
