@@ -96,11 +96,7 @@ export default function Profile() {
 
   async function handleSetLocation(placeName, placeType, placeLocation) {
     const mapkey = import.meta.env.VITE_MAPS_API_KEY;
-    let location = { lat: 2, lng: 2 };
-    let lat = 0;
-    let lng = 0;
-
-    console.log(placeName);
+    let location = { lat: null, lng: null };
     const response = await fetch(
       `https://places.googleapis.com/v1/places:searchText?textQuery=${placeName}`,
       {
@@ -117,18 +113,17 @@ export default function Profile() {
       return;
     }
     const data = await response.json();
-    console.log(data.places);
     data.places.forEach((place) => {
       location = place.location;
-      lat = location.latitude;
-      lng = location.longitude;
+      let lat = location.latitude;
+      let lng = location.longitude;
       location = { lat, lng };
     });
-    console.log(location);
     updateForm({
       [placeType]: placeName,
       [placeLocation]: location,
     });
+    sessionStorage.setItem(placeLocation, JSON.stringify(location));
   }
 
   return (

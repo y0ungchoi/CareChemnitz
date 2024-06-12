@@ -59,10 +59,11 @@ export default function Maps({
   selectedFacility,
 }: MapsProps) {
   const mapkey = import.meta.env.VITE_MAPS_API_KEY;
-  const homeLocation = JSON.parse(
-    sessionStorage.getItem("homeLocation") || "{}"
-  );
-  const favLocation = JSON.parse(sessionStorage.getItem("favLocation") || "{}");
+  let homeLocation: { lat: number; lng: number } | null = null;
+  let favLocation: { lat: number; lng: number } | null = null;
+
+  homeLocation = JSON.parse(sessionStorage.getItem("homeLocation") || "{}");
+  favLocation = JSON.parse(sessionStorage.getItem("favLocation") || "{}");
 
   useEffect(() => {
     async function getFacilities(facilityInfo: FacilityInfo) {
@@ -126,18 +127,22 @@ export default function Maps({
                   );
                 })
               )}
-            <Marker
-              key="home"
-              position={{ lat: homeLocation.lat, lng: homeLocation.lng }}
-              icon={{
-                url: "../src/assets/homeMarker.png",
-              }}
-            />
-            <Marker
-              key="favPlace"
-              position={{ lat: favLocation.lat, lng: favLocation.lng }}
-              icon={{ url: "../src/assets/favMarker.png" }}
-            />
+            {homeLocation ? (
+              <Marker
+                key="home"
+                position={{ lat: homeLocation.lat, lng: homeLocation.lng }}
+                icon={{
+                  url: "../src/assets/homeMarker.png",
+                }}
+              />
+            ) : null}
+            {favLocation ? (
+              <Marker
+                key="favPlace"
+                position={{ lat: favLocation.lat, lng: favLocation.lng }}
+                icon={{ url: "../src/assets/favMarker.png" }}
+              />
+            ) : null}
           </Map>
         </APIProvider>
       </div>
