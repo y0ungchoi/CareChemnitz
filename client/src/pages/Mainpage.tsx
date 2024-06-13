@@ -52,14 +52,14 @@ export default function Mainpage() {
           </div>
         </div>
         <section aria-labelledby="products-heading" className="pb-24 pt-6">
-          <div className="grid grid-cols-1 gap-x-8 lg:grid-cols-4">
+          <div className="grid grid-cols-1 gap-x-8 md:grid-cols-3 lg:grid-cols-4">
             <SideFilter
               isMobileFiltersOpen={isMobileFiltersOpen}
               mobileFiltersHandler={mobileFiltersHandler}
               facilityInfo={facilityInfo}
               setFacilityInfo={setFacilityInfo}
             />
-            <div className="lg:col-span-2">
+            <div className="md:col-span-2">
               <Maps
                 facilityInfo={facilityInfo}
                 geojsonData={geojsonData}
@@ -72,7 +72,7 @@ export default function Mainpage() {
                 selectedFacility={selectedFacility}
               />
             </div>
-            <div className="lg:col-span-1">
+            <div className="md:col-span-1">
               <SlidePanel
                 geojsonData={geojsonData}
                 loading={loading}

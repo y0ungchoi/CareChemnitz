@@ -62,11 +62,11 @@ export default function SideFilter({
   const isChecked = (value: string) => facilityInfo.facilities.includes(value);
 
   return (
-    <div>
+    <div className="hidden lg:block">
       {/* Mobile filter dialog */}
       <Transition show={isMobileFiltersOpen}>
         <Dialog
-          className="relative z-40 lg:hidden"
+          className="relative z-40 sm:hidden"
           onClose={mobileFiltersHandler}
         >
           <TransitionChild
@@ -103,7 +103,7 @@ export default function SideFilter({
                 </div>
 
                 {/* Mobile Filters */}
-                <form className="mt-4 border-t border-gray-200">
+                <form className="mt-4 border-t border-gray-200 ">
                   <h3 className="sr-only">Categories</h3>
                   {filters.map((section) => (
                     <ul
@@ -161,7 +161,7 @@ export default function SideFilter({
       </Transition>
 
       {/* Web Filters */}
-      <form className="hidden lg:block">
+      <form>
         <h3 className="sr-only">Categories</h3>
         {filters.map((section) => (
           <ul
