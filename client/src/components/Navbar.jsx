@@ -130,7 +130,7 @@ export default function Navbar() {
           </div>
 
           {/* mobile Nav */}
-          <div className="fixed inset-x-0  h-16 bottom-0 bg-main p-4 sm:hidden">
+          <div className="fixed inset-x-0 h-16 bottom-0 bg-main p-4 sm:hidden">
             <div className="flex justify-around">
               {navigation.map((item) => (
                 <NavLink
