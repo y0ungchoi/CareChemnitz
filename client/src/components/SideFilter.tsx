@@ -66,7 +66,7 @@ export default function SideFilter({
       {/* Mobile filter dialog */}
       <Transition show={isMobileFiltersOpen}>
         <Dialog
-          className="relative z-40 sm:hidden"
+          className="relative z-40 lg:hidden"
           onClose={mobileFiltersHandler}
         >
           <TransitionChild
@@ -104,7 +104,6 @@ export default function SideFilter({
 
                 {/* Mobile Filters */}
                 <form className="mt-4 border-t border-gray-200 ">
-                  <h3 className="sr-only">Categories</h3>
                   {filters.map((section) => (
                     <ul
                       key={`filter-mobile-${section.name}`}
@@ -128,7 +127,6 @@ export default function SideFilter({
                           {section.name}
                         </label>
                       </li>
-
                       {section.options &&
                         section.options.map((option, optionIdx) => (
                           <div key={option.value} className="pl-6 space-y-6">
@@ -162,7 +160,6 @@ export default function SideFilter({
 
       {/* Web Filters */}
       <form>
-        <h3 className="sr-only">Categories</h3>
         {filters.map((section) => (
           <ul
             key={section.name}
@@ -186,7 +183,6 @@ export default function SideFilter({
                 {section.name}
               </label>
             </li>
-
             {section.options &&
               section.options.map((option, optionIdx) => (
                 <div key={option.value} className="pl-6 space-y-4">
