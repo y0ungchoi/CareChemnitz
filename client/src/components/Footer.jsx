@@ -12,7 +12,7 @@ function Footer() {
               <img
                 src="../src/assets/Chemnitz_care_text.svg"
                 alt="footer_logo"
-                className="w-[10rem]"
+                className="w-[7rem]"
               />
             </div>
             <div className="flex md:p-0 py-1 gap-1">
