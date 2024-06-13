@@ -113,7 +113,7 @@ export default function SideFilter({
                     >
                       <li>
                         <input
-                          className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
+                          className="h-4 w-4 rounded border-gray-300 text-main focus:ring-main"
                           type="checkbox"
                           name={section.name}
                           value={section.name}
@@ -140,7 +140,7 @@ export default function SideFilter({
                                 type="checkbox"
                                 checked={isChecked(option.value)}
                                 defaultChecked={option.checked}
-                                className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
+                                className="h-4 w-4 rounded border-gray-300 text-main focus:ring-main"
                               />
                               <label
                                 htmlFor={`filter-mobile-${section.id}-${optionIdx}`}
@@ -171,7 +171,7 @@ export default function SideFilter({
           >
             <li>
               <input
-                className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
+                className="h-4 w-4 rounded border-gray-300 text-main focus:ring-main"
                 type="checkbox"
                 name={section.name}
                 value={section.name}
@@ -197,7 +197,7 @@ export default function SideFilter({
                       defaultValue={option.value}
                       type="checkbox"
                       checked={isChecked(option.value)}
-                      className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
+                      className="h-4 w-4 rounded border-gray-300 text-main focus:ring-main"
                     />
                     <label
                       htmlFor={`filter-${section.id}-${optionIdx}`}

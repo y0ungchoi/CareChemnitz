@@ -29,7 +29,7 @@ export default function Navbar() {
   };
 
   return (
-    <Disclosure as="nav" className="bg-input">
+    <Disclosure as="nav" className="bg-background">
       {({ open }) => (
         <>
           <div className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
@@ -53,7 +53,7 @@ export default function Navbar() {
                         className={classNames(
                           item.current
                             ? "bg-main text-white"
-                            : "text-main hover:bg-background",
+                            : "text-main hover:bg-input",
                           "rounded-md px-3 py-2 text-sm font-medium"
                         )}
                         aria-current={item.current ? "page" : undefined}
@@ -92,7 +92,7 @@ export default function Navbar() {
                           {({ focus }) => (
                             <NavLink
                               className={classNames(
-                                focus ? "bg-background" : "",
+                                focus ? "bg-input" : "",
                                 "block px-4 py-2 text-sm text-main"
                               )}
                               to="/profile"
@@ -106,7 +106,7 @@ export default function Navbar() {
                             <a
                               onClick={handleLogout}
                               className={classNames(
-                                focus ? "bg-background" : "",
+                                focus ? "bg-input" : "",
                                 "block px-4 py-2 text-sm text-main"
                               )}
                             >
@@ -119,7 +119,7 @@ export default function Navbar() {
                   </Menu>
                 ) : (
                   <NavLink
-                    className="inline-flex items-center justify-center whitespace-nowrap text-md font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input bg-main hover:bg-background text-white h-9 hover:text-main rounded-md px-3"
+                    className="inline-flex items-center justify-center whitespace-nowrap text-md font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input bg-main hover:bg-input text-white h-9 hover:text-main rounded-md px-3"
                     to="/signin"
                   >
                     Sign In

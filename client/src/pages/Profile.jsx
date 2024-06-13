@@ -131,7 +131,7 @@ export default function Profile() {
       <form>
         <div className="space-y-12">
           <div className="border-b border-gray-900/10 pb-12">
-            <h2 className="text-base font-semibold leading-7 text-gray-900">
+            <h2 className="text-base font-semibold leading-7 text-main">
               Personal Information
             </h2>
 
@@ -151,7 +151,7 @@ export default function Profile() {
                     autoComplete="given-name"
                     value={form.firstName}
                     onChange={(e) => updateForm({ firstName: e.target.value })}
-                    className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 "
+                    className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-main sm:text-sm sm:leading-6 "
                     readOnly={!isEditMode}
                   />
                 </div>
@@ -171,7 +171,7 @@ export default function Profile() {
                     autoComplete="family-name"
                     value={form.lastName}
                     onChange={(e) => updateForm({ lastName: e.target.value })}
-                    className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                    className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-main sm:text-sm sm:leading-6"
                     readOnly={!isEditMode}
                   />
                 </div>
@@ -221,7 +221,7 @@ export default function Profile() {
                       name="homePlace"
                       id="homePlace"
                       value={form.homePlace ? form.homePlace : ""}
-                      className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                      className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-main sm:text-sm sm:leading-6"
                       readOnly
                     />
                   )}
@@ -249,7 +249,7 @@ export default function Profile() {
                       name="favPlace"
                       id="favPlace"
                       value={form.favPlace ? form.favPlace : ""}
-                      className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                      className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-main sm:text-sm sm:leading-6"
                       readOnly
                     />
                   )}
@@ -268,7 +268,7 @@ export default function Profile() {
                     name="password"
                     type="password"
                     value={form.password}
-                    className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                    className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-main sm:text-sm sm:leading-6"
                     onChange={(e) => updateForm({ password: e.target.value })}
                     readOnly={!isEditMode}
                   />
@@ -281,22 +281,22 @@ export default function Profile() {
       <div className="mt-6 flex items-center justify-end gap-x-6">
         <button
           type="button"
-          className="rounded-md bg-red-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-600"
+          className="rounded-md bg-red-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-red-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-600"
           onClick={() => deleteRecord(id)}
         >
           Delete
         </button>
         <button
           type="button"
-          className="text-sm font-semibold leading-6 text-gray-900"
+          className="rounded-md border ring-1 ring-inset ring-gray-300 px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm hover:bg-input focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-main"
           onClick={() => navigate("/")}
         >
-          Cancel
+          Cancel//이름 바꾸기
         </button>
         {isEditMode ? (
           <button
             onClick={handleSubmit}
-            className="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+            className="rounded-md bg-green-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-green-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-green-600"
           >
             Save
           </button>
@@ -304,7 +304,7 @@ export default function Profile() {
           <button
             type="button"
             onClick={toggleEditMode}
-            className="rounded-md bg-green-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-green-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-green-600"
+            className="rounded-md bg-main px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-input hover:text-main focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-main"
           >
             Edit
           </button>

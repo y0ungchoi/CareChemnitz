@@ -44,7 +44,10 @@ export default function Mainpage() {
               onClick={mobileFiltersHandler}
             >
               <span className="sr-only">Filters</span>
-              <FunnelIcon className="h-5 w-5" aria-hidden="true" />
+              <FunnelIcon
+                className="h-5 w-5 text-main hover:text-input"
+                aria-hidden="true"
+              />
             </button>
           </div>
         </div>
