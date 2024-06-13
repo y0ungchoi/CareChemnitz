@@ -189,7 +189,7 @@ export default function SlidePanel({
   }
 
   return (
-    <div className="h-dvh overflow-y-auto">
+    <div className="h-[calc(1024px*0.4)] overflow-y-scroll">
       {loading ? (
         <ul role="list" className="divide-y divide-gray-100">
           <li className="flex justify-between gap-x-6 py-5">
