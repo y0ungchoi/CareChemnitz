@@ -1,4 +1,12 @@
+import { useState } from "react";
 import { GeojsonResponse, GeojsonFeature } from "./Maps";
+import { XMarkIcon, ListBulletIcon } from "@heroicons/react/24/outline";
+import {
+  Dialog,
+  DialogPanel,
+  DialogTitle,
+  Transition,
+} from "@headlessui/react";
 
 function Facility({
   feature,
@@ -58,6 +66,11 @@ export default function SlidePanel({
     handleFacilityClick(null);
   };
   const id = sessionStorage.getItem("userId") || undefined;
+  const [isOpen, setIsOpen] = useState(false);
+
+  function toggleMobSlidePanel() {
+    setIsOpen(!isOpen);
+  }
 
   const facilityList = () => {
     if (!geojsonData) {
@@ -65,7 +78,7 @@ export default function SlidePanel({
         <li className="flex justify-between gap-x-6 py-5">
           <div className="flex min-w-0 gap-x-4">
             <div className="min-w-0 flex-auto">
-              <p className="text-sm font-semibold leading-6 text-gray-900">
+              <p className="text-sm leading-6 text-gray-900">
                 No data available
               </p>
             </div>
@@ -189,26 +202,77 @@ export default function SlidePanel({
   }
 
   return (
-    <div className="h-[calc(1024px*0.4)] overflow-y-scroll">
-      {loading ? (
-        <ul role="list" className="divide-y divide-gray-100">
-          <li className="flex justify-between gap-x-6 py-5">
-            <div className="flex min-w-0 gap-x-4">
-              <div className="min-w-0 flex-auto">
-                <p className="text-sm font-semibold leading-6 text-gray-900">
-                  Loading...
-                </p>
-              </div>
-            </div>
-          </li>
-        </ul>
-      ) : selectedFacility ? (
-        facilityDetail()
-      ) : (
-        <ul role="list" className="divide-y divide-gray-100">
-          {facilityList()}
-        </ul>
-      )}
-    </div>
+    <>
+      {/* Web slide panel */}
+      <div className="hidden sm:block">
+        <div className="h-[calc(1024px*0.4)] overflow-y-scroll">
+          {loading ? (
+            <ul role="list" className="divide-y divide-gray-100">
+              <li className="flex justify-between gap-x-6 py-5">
+                <div className="flex min-w-0 gap-x-4">
+                  <div className="min-w-0 flex-auto">
+                    <p className="text-sm leading-6 text-gray-900">
+                      Loading...
+                    </p>
+                  </div>
+                </div>
+              </li>
+            </ul>
+          ) : selectedFacility ? (
+            facilityDetail()
+          ) : (
+            <ul role="list" className="divide-y divide-gray-100">
+              {facilityList()}
+            </ul>
+          )}
+        </div>
+      </div>
+      {/* Mobile slide panel */}
+      <div className="sm:hidden">
+        {!isOpen ? (
+          <div className="fixed bottom-24 left-1/2">
+            <button
+              className="flex transform -translate-x-1/2 rounded-md border ring-1 ring-inset ring-gray-300 px-3 py-2 text-sm font-semibold bg-main text-input shadow-sm"
+              onClick={toggleMobSlidePanel}
+            >
+              <ListBulletIcon className="text-input mr-1 h-6 w-6" />
+              Open list
+            </button>
+          </div>
+        ) : null}
+        <Transition
+          show={isOpen}
+          enter="transform transition ease-in-out duration-500 sm:duration-700"
+          enterFrom="translate-y-full"
+          enterTo="translate-y-0"
+          leave="transform transition ease-in-out duration-500 sm:duration-700"
+          leaveFrom="translate-y-0"
+          leaveTo="translate-y-full"
+        >
+          <Dialog
+            open={isOpen}
+            onClose={() => toggleMobSlidePanel()}
+            className="fixed inset-0 flex items-end justify-center"
+          >
+            <DialogPanel className="w-full h-3/4 bg-white shadow-lg overflow-y-auto p-4">
+              <DialogTitle className="flex font-bold text-lg">
+                Facility List
+                <XMarkIcon
+                  onClick={() => setIsOpen(false)}
+                  className="absolute right-2 h-6 w-6"
+                />
+              </DialogTitle>
+
+              <ul
+                role="list"
+                className="divide-y divide-gray-100 overflow-y-auto"
+              >
+                {facilityList()}
+              </ul>
+            </DialogPanel>
+          </Dialog>
+        </Transition>
+      </div>
+    </>
   );
 }
