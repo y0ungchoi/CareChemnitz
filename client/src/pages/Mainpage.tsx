@@ -31,8 +31,8 @@ export default function Mainpage() {
   };
 
   return (
-    <main>
-      <div className="mx-auto max-w-7xl py-6 sm:px-6 lg:px-8">
+    <main className="h-[calc(100vh-theme('spacing.27'))]">
+      <div className="mx-auto max-w-7xl py-6 px-6 sm:px-6 lg:px-8">
         <div className="flex items-baseline justify-between border-b border-gray-200 py-6">
           <h1 className="text-4xl font-bold tracking-tight text-gray-900">
             Maps
@@ -44,19 +44,22 @@ export default function Mainpage() {
               onClick={mobileFiltersHandler}
             >
               <span className="sr-only">Filters</span>
-              <FunnelIcon className="h-5 w-5" aria-hidden="true" />
+              <FunnelIcon
+                className="h-5 w-5 text-main hover:text-input"
+                aria-hidden="true"
+              />
             </button>
           </div>
         </div>
-        <section aria-labelledby="products-heading" className="pb-24 pt-6">
-          <div className="grid grid-cols-1 gap-x-8 gap-y-10 lg:grid-cols-4">
+        <section aria-labelledby="products-heading" className="pb-6 pt-6">
+          <div className="grid grid-cols-1 gap-x-8 md:grid-cols-3 lg:grid-cols-4">
             <SideFilter
               isMobileFiltersOpen={isMobileFiltersOpen}
               mobileFiltersHandler={mobileFiltersHandler}
               facilityInfo={facilityInfo}
               setFacilityInfo={setFacilityInfo}
             />
-            <div className="lg:col-span-2">
+            <div className="md:col-span-2">
               <Maps
                 facilityInfo={facilityInfo}
                 geojsonData={geojsonData}
@@ -69,7 +72,7 @@ export default function Mainpage() {
                 selectedFacility={selectedFacility}
               />
             </div>
-            <div className="lg:col-span-1">
+            <div className="md:col-span-1">
               <SlidePanel
                 geojsonData={geojsonData}
                 loading={loading}

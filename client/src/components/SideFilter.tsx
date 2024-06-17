@@ -62,7 +62,7 @@ export default function SideFilter({
   const isChecked = (value: string) => facilityInfo.facilities.includes(value);
 
   return (
-    <div>
+    <div className="hidden lg:block">
       {/* Mobile filter dialog */}
       <Transition show={isMobileFiltersOpen}>
         <Dialog
@@ -103,8 +103,7 @@ export default function SideFilter({
                 </div>
 
                 {/* Mobile Filters */}
-                <form className="mt-4 border-t border-gray-200">
-                  <h3 className="sr-only">Categories</h3>
+                <form className="mt-4 border-t border-gray-200 ">
                   {filters.map((section) => (
                     <ul
                       key={`filter-mobile-${section.name}`}
@@ -113,7 +112,7 @@ export default function SideFilter({
                     >
                       <li>
                         <input
-                          className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
+                          className="h-4 w-4 rounded border-gray-300 text-main focus:ring-main"
                           type="checkbox"
                           name={section.name}
                           value={section.name}
@@ -128,7 +127,6 @@ export default function SideFilter({
                           {section.name}
                         </label>
                       </li>
-
                       {section.options &&
                         section.options.map((option, optionIdx) => (
                           <div key={option.value} className="pl-6 space-y-6">
@@ -140,7 +138,7 @@ export default function SideFilter({
                                 type="checkbox"
                                 checked={isChecked(option.value)}
                                 defaultChecked={option.checked}
-                                className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
+                                className="h-4 w-4 rounded border-gray-300 text-main focus:ring-main"
                               />
                               <label
                                 htmlFor={`filter-mobile-${section.id}-${optionIdx}`}
@@ -161,8 +159,7 @@ export default function SideFilter({
       </Transition>
 
       {/* Web Filters */}
-      <form className="hidden lg:block">
-        <h3 className="sr-only">Categories</h3>
+      <form>
         {filters.map((section) => (
           <ul
             key={section.name}
@@ -171,7 +168,7 @@ export default function SideFilter({
           >
             <li>
               <input
-                className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
+                className="h-4 w-4 rounded border-gray-300 text-main focus:ring-main"
                 type="checkbox"
                 name={section.name}
                 value={section.name}
@@ -186,7 +183,6 @@ export default function SideFilter({
                 {section.name}
               </label>
             </li>
-
             {section.options &&
               section.options.map((option, optionIdx) => (
                 <div key={option.value} className="pl-6 space-y-4">
@@ -197,7 +193,7 @@ export default function SideFilter({
                       defaultValue={option.value}
                       type="checkbox"
                       checked={isChecked(option.value)}
-                      className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
+                      className="h-4 w-4 rounded border-gray-300 text-main focus:ring-main"
                     />
                     <label
                       htmlFor={`filter-${section.id}-${optionIdx}`}
