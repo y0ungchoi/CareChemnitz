@@ -17,6 +17,10 @@ export default function Profile() {
   const id = sessionStorage.getItem("userId") || undefined;
   const navigate = useNavigate();
 
+  function classNames(...classes) {
+    return classes.filter(Boolean).join(" ");
+  }
+
   useEffect(() => {
     async function fetchData() {
       if (!id) return navigate("/signin");
@@ -127,7 +131,7 @@ export default function Profile() {
   }
 
   return (
-    <div>
+    <div className="mx-auto max-w-7xl py-6 px-6 sm:px-6 lg:px-8">
       <form>
         <div className="space-y-12">
           <div className="border-b border-gray-900/10 pb-12">
@@ -151,7 +155,12 @@ export default function Profile() {
                     autoComplete="given-name"
                     value={form.firstName}
                     onChange={(e) => updateForm({ firstName: e.target.value })}
-                    className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-main sm:text-sm sm:leading-6 "
+                    className={classNames(
+                      !isEditMode
+                        ? "ring-gray-300 text-gray-400"
+                        : "ring-main focus:ring-2 focus:ring-inset focus:ring-main text-gray-900",
+                      "block w-full rounded-md border-0 py-1.5 shadow-sm ring-1 ring-inset placeholder:text-gray-400 sm:text-sm sm:leading-6 "
+                    )}
                     readOnly={!isEditMode}
                   />
                 </div>
@@ -171,7 +180,12 @@ export default function Profile() {
                     autoComplete="family-name"
                     value={form.lastName}
                     onChange={(e) => updateForm({ lastName: e.target.value })}
-                    className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-main sm:text-sm sm:leading-6"
+                    className={classNames(
+                      !isEditMode
+                        ? "ring-gray-300 text-gray-400"
+                        : "ring-main focus:ring-2 focus:ring-inset focus:ring-main text-gray-900",
+                      "block w-full rounded-md border-0 py-1.5 shadow-sm ring-1 ring-inset placeholder:text-gray-400 sm:text-sm sm:leading-6 "
+                    )}
                     readOnly={!isEditMode}
                   />
                 </div>
@@ -181,7 +195,7 @@ export default function Profile() {
                   htmlFor="email"
                   className="block text-sm font-medium leading-6 text-gray-900"
                 >
-                  Email address
+                  Email address*
                 </label>
                 <div className="mt-2">
                   <input
@@ -190,7 +204,7 @@ export default function Profile() {
                     type="email"
                     autoComplete="email"
                     value={form.email}
-                    className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 sm:text-sm sm:leading-6"
+                    className="block w-full rounded-md border-0 py-1.5 text-gray-400 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 sm:text-sm sm:leading-6"
                     readOnly
                   />
                 </div>
@@ -221,7 +235,8 @@ export default function Profile() {
                       name="homePlace"
                       id="homePlace"
                       value={form.homePlace ? form.homePlace : ""}
-                      className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-main sm:text-sm sm:leading-6"
+                      placeholder="Select your home"
+                      className="block w-full rounded-md border-0 py-1.5 text-gray-400 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 sm:text-sm sm:leading-6"
                       readOnly
                     />
                   )}
@@ -249,7 +264,8 @@ export default function Profile() {
                       name="favPlace"
                       id="favPlace"
                       value={form.favPlace ? form.favPlace : ""}
-                      className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-main sm:text-sm sm:leading-6"
+                      placeholder="Select your favorite place"
+                      className="block w-full rounded-md border-0 py-1.5 text-gray-400 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 sm:text-sm sm:leading-6"
                       readOnly
                     />
                   )}
@@ -260,7 +276,7 @@ export default function Profile() {
                   htmlFor="password"
                   className="block text-sm font-medium leading-6 text-gray-900"
                 >
-                  Password
+                  Password*
                 </label>
                 <div className="mt-2">
                   <input
@@ -268,7 +284,12 @@ export default function Profile() {
                     name="password"
                     type="password"
                     value={form.password}
-                    className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-main sm:text-sm sm:leading-6"
+                    className={classNames(
+                      !isEditMode
+                        ? "ring-gray-300 text-gray-400"
+                        : "ring-main focus:ring-2 focus:ring-inset focus:ring-main text-gray-900",
+                      "block w-full rounded-md border-0 py-1.5 shadow-sm ring-1 ring-inset placeholder:text-gray-400 sm:text-sm sm:leading-6 "
+                    )}
                     onChange={(e) => updateForm({ password: e.target.value })}
                     readOnly={!isEditMode}
                   />
@@ -278,37 +299,41 @@ export default function Profile() {
           </div>
         </div>
       </form>
-      <div className="mt-6 flex items-center justify-end gap-x-6">
+      <div className="mt-6 mb-16 flex items-center justify-between gap-x-6">
         <button
           type="button"
           className="rounded-md bg-red-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-red-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-600"
           onClick={() => deleteRecord(id)}
         >
-          Delete
+          Delete your account
         </button>
-        <button
-          type="button"
-          className="rounded-md border ring-1 ring-inset ring-gray-300 px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm hover:bg-input focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-main"
-          onClick={() => navigate("/")}
-        >
-          Cancel//이름 바꾸기
-        </button>
-        {isEditMode ? (
-          <button
-            onClick={handleSubmit}
-            className="rounded-md bg-green-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-green-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-green-600"
-          >
-            Save
-          </button>
-        ) : (
-          <button
-            type="button"
-            onClick={toggleEditMode}
-            className="rounded-md bg-main px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-input hover:text-main focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-main"
-          >
-            Edit
-          </button>
-        )}
+        <div className="flex gap-x-6">
+          {isEditMode ? (
+            <>
+              <button
+                type="button"
+                className="rounded-md border ring-1 ring-inset ring-gray-300 px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm hover:bg-input focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-main"
+                onClick={() => setIsEditMode(false)}
+              >
+                Cancel
+              </button>
+              <button
+                onClick={handleSubmit}
+                className="rounded-md bg-green-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-green-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-green-600"
+              >
+                Save
+              </button>
+            </>
+          ) : (
+            <button
+              type="button"
+              onClick={toggleEditMode}
+              className="rounded-md bg-main px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-input hover:text-main focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-main"
+            >
+              Edit
+            </button>
+          )}
+        </div>
       </div>
     </div>
   );
