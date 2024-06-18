@@ -15,6 +15,23 @@ const filters = [
   {
     id: "Schulen",
     name: "Schulen",
+    options: [
+      { value: "grundschule", label: "Grundschule", checked: false },
+      { value: "iberschule", label: "Oberschule", checked: false },
+      { value: "gymnasium", label: "Gymnasium", checked: false },
+      { value: "förderschule", label: "Förderschule", checked: false },
+      {
+        value: "berufsbildende",
+        label: "Berufsbildende Schule",
+        checked: false,
+      },
+      { value: "sonstige", label: "Sonstige Einrichtung", checked: false },
+      {
+        value: "bildungsweges",
+        label: "Schule des zweiten Bildungsweges",
+        checked: false,
+      },
+    ],
   },
   {
     id: "Schulsozialarbeit",
@@ -119,7 +136,7 @@ export default function SideFilter({
                           name={section.name}
                           value={section.id}
                           id={`filter-mobile-${section.name}`}
-                          checked={isChecked(section.name)}
+                          checked={isChecked(section.id)}
                           onChange={handleFilterChange}
                         />
                         <label
@@ -175,7 +192,7 @@ export default function SideFilter({
                 name={section.name}
                 value={section.id}
                 id={`checkbox-${section.name}`}
-                checked={isChecked(section.name)}
+                checked={isChecked(section.id)}
                 onChange={handleFilterChange}
               />
               <label

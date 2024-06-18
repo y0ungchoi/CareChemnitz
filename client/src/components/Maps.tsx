@@ -37,6 +37,7 @@ const colorMarker: { [key: string]: string } = {
   Kindertageseinrichtungen: "blue",
   Schulen: "green",
   Schulsozialarbeit: "yellow",
+  Erzieherische_Hilfen: "purple",
 };
 
 type MapsProps = {
