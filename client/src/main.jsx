@@ -6,6 +6,7 @@ import Mainpage from "./pages/Mainpage";
 import Signin from "./pages/Signin";
 import Signup from "./pages/Signup";
 import Profile from "./pages/Profile";
+import Impressum from "./pages/Impressum";
 import "./index.css";
 
 const router = createBrowserRouter([
@@ -16,6 +17,10 @@ const router = createBrowserRouter([
       {
         path: "/",
         element: <Mainpage />,
+      },
+      {
+        path: "/impressum",
+        element: <Impressum />,
       },
     ],
   },
