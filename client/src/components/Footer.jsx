@@ -17,8 +17,7 @@ function Footer() {
               <p className="text-[10px] font-medium text-[#646464]">
                 Children, adolescents, and young adults require access to the
                 education and care system.
-              </p>
-              <p className="text-[10px] font-medium text-[#646464]">
+                <br />
                 This is essential for their development and also legally
                 mandated.
               </p>
