@@ -299,7 +299,7 @@ export default function Profile() {
           </div>
         </div>
       </form>
-      <div className="mt-6 flex items-center justify-end gap-x-6">
+      <div className="mt-6 flex items-center justify-between gap-x-6">
         <button
           type="button"
           className="rounded-md bg-red-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-red-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-600"
@@ -307,32 +307,33 @@ export default function Profile() {
         >
           Delete your account
         </button>
-
-        {isEditMode ? (
-          <>
+        <div className="flex gap-x-6">
+          {isEditMode ? (
+            <>
+              <button
+                type="button"
+                className="rounded-md border ring-1 ring-inset ring-gray-300 px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm hover:bg-input focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-main"
+                onClick={() => setIsEditMode(false)}
+              >
+                Cancel
+              </button>
+              <button
+                onClick={handleSubmit}
+                className="rounded-md bg-green-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-green-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-green-600"
+              >
+                Save
+              </button>
+            </>
+          ) : (
             <button
               type="button"
-              className="rounded-md border ring-1 ring-inset ring-gray-300 px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm hover:bg-input focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-main"
-              onClick={() => setIsEditMode(false)}
+              onClick={toggleEditMode}
+              className="rounded-md bg-main px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-input hover:text-main focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-main"
             >
-              Cancel
+              Edit
             </button>
-            <button
-              onClick={handleSubmit}
-              className="rounded-md bg-green-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-green-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-green-600"
-            >
-              Save
-            </button>
-          </>
-        ) : (
-          <button
-            type="button"
-            onClick={toggleEditMode}
-            className="rounded-md bg-main px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-input hover:text-main focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-main"
-          >
-            Edit
-          </button>
-        )}
+          )}
+        </div>
       </div>
     </div>
   );
