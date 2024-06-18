@@ -127,7 +127,7 @@ export default function Profile() {
   }
 
   return (
-    <div>
+    <div className="mx-auto max-w-7xl py-6 px-6 sm:px-6 lg:px-8">
       <form>
         <div className="space-y-12">
           <div className="border-b border-gray-900/10 pb-12">
@@ -221,6 +221,7 @@ export default function Profile() {
                       name="homePlace"
                       id="homePlace"
                       value={form.homePlace ? form.homePlace : ""}
+                      placeholder="Select your home"
                       className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-main sm:text-sm sm:leading-6"
                       readOnly
                     />
@@ -249,6 +250,7 @@ export default function Profile() {
                       name="favPlace"
                       id="favPlace"
                       value={form.favPlace ? form.favPlace : ""}
+                      placeholder="Select your favorite place"
                       className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-main sm:text-sm sm:leading-6"
                       readOnly
                     />
@@ -284,22 +286,25 @@ export default function Profile() {
           className="rounded-md bg-red-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-red-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-600"
           onClick={() => deleteRecord(id)}
         >
-          Delete
+          Delete your account
         </button>
-        <button
-          type="button"
-          className="rounded-md border ring-1 ring-inset ring-gray-300 px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm hover:bg-input focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-main"
-          onClick={() => navigate("/")}
-        >
-          Cancel//이름 바꾸기
-        </button>
+
         {isEditMode ? (
-          <button
-            onClick={handleSubmit}
-            className="rounded-md bg-green-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-green-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-green-600"
-          >
-            Save
-          </button>
+          <>
+            <button
+              type="button"
+              className="rounded-md border ring-1 ring-inset ring-gray-300 px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm hover:bg-input focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-main"
+              onClick={() => setIsEditMode(false)}
+            >
+              Cancel
+            </button>
+            <button
+              onClick={handleSubmit}
+              className="rounded-md bg-green-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-green-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-green-600"
+            >
+              Save
+            </button>
+          </>
         ) : (
           <button
             type="button"
