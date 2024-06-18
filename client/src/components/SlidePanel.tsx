@@ -159,9 +159,11 @@ export default function SlidePanel({
             </a>
           </p>
         )}
-        <button onClick={() => handleFavClick({ facilityName, lat, lng })}>
-          Favorite
-        </button>
+        {id ? (
+          <button onClick={() => handleFavClick({ facilityName, lat, lng })}>
+            Favorite
+          </button>
+        ) : null}
       </div>
     );
   };
