@@ -1,5 +1,3 @@
-//Tailwind filter example
-//https://tailwindui.com/components/ecommerce/components/category-filters
 import {
   Dialog,
   DialogPanel,
@@ -29,6 +27,10 @@ const filters = [
       { value: "hort", label: "Hort", checked: false },
       { value: "kita", label: "Kita", checked: false },
     ],
+  },
+  {
+    id: "Erzieherische_Hilfen",
+    name: "Erzieherische Hilfen",
   },
 ];
 
@@ -115,7 +117,7 @@ export default function SideFilter({
                           className="h-4 w-4 rounded border-gray-300 text-main focus:ring-main"
                           type="checkbox"
                           name={section.name}
-                          value={section.name}
+                          value={section.id}
                           id={`filter-mobile-${section.name}`}
                           checked={isChecked(section.name)}
                           onChange={handleFilterChange}
@@ -171,7 +173,7 @@ export default function SideFilter({
                 className="h-4 w-4 rounded border-gray-300 text-main focus:ring-main"
                 type="checkbox"
                 name={section.name}
-                value={section.name}
+                value={section.id}
                 id={`checkbox-${section.name}`}
                 checked={isChecked(section.name)}
                 onChange={handleFilterChange}
