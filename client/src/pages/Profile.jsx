@@ -17,6 +17,10 @@ export default function Profile() {
   const id = sessionStorage.getItem("userId") || undefined;
   const navigate = useNavigate();
 
+  function classNames(...classes) {
+    return classes.filter(Boolean).join(" ");
+  }
+
   useEffect(() => {
     async function fetchData() {
       if (!id) return navigate("/signin");
@@ -151,7 +155,12 @@ export default function Profile() {
                     autoComplete="given-name"
                     value={form.firstName}
                     onChange={(e) => updateForm({ firstName: e.target.value })}
-                    className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-main sm:text-sm sm:leading-6 "
+                    className={classNames(
+                      !isEditMode
+                        ? "ring-gray-300 text-gray-400"
+                        : "ring-main focus:ring-2 focus:ring-inset focus:ring-main text-gray-900",
+                      "block w-full rounded-md border-0 py-1.5 shadow-sm ring-1 ring-inset placeholder:text-gray-400 sm:text-sm sm:leading-6 "
+                    )}
                     readOnly={!isEditMode}
                   />
                 </div>
@@ -171,7 +180,12 @@ export default function Profile() {
                     autoComplete="family-name"
                     value={form.lastName}
                     onChange={(e) => updateForm({ lastName: e.target.value })}
-                    className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-main sm:text-sm sm:leading-6"
+                    className={classNames(
+                      !isEditMode
+                        ? "ring-gray-300 text-gray-400"
+                        : "ring-main focus:ring-2 focus:ring-inset focus:ring-main text-gray-900",
+                      "block w-full rounded-md border-0 py-1.5 shadow-sm ring-1 ring-inset placeholder:text-gray-400 sm:text-sm sm:leading-6 "
+                    )}
                     readOnly={!isEditMode}
                   />
                 </div>
@@ -181,7 +195,7 @@ export default function Profile() {
                   htmlFor="email"
                   className="block text-sm font-medium leading-6 text-gray-900"
                 >
-                  Email address
+                  Email address*
                 </label>
                 <div className="mt-2">
                   <input
@@ -190,7 +204,7 @@ export default function Profile() {
                     type="email"
                     autoComplete="email"
                     value={form.email}
-                    className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 sm:text-sm sm:leading-6"
+                    className="block w-full rounded-md border-0 py-1.5 text-gray-400 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 sm:text-sm sm:leading-6"
                     readOnly
                   />
                 </div>
@@ -222,7 +236,7 @@ export default function Profile() {
                       id="homePlace"
                       value={form.homePlace ? form.homePlace : ""}
                       placeholder="Select your home"
-                      className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-main sm:text-sm sm:leading-6"
+                      className="block w-full rounded-md border-0 py-1.5 text-gray-400 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 sm:text-sm sm:leading-6"
                       readOnly
                     />
                   )}
@@ -251,7 +265,7 @@ export default function Profile() {
                       id="favPlace"
                       value={form.favPlace ? form.favPlace : ""}
                       placeholder="Select your favorite place"
-                      className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-main sm:text-sm sm:leading-6"
+                      className="block w-full rounded-md border-0 py-1.5 text-gray-400 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 sm:text-sm sm:leading-6"
                       readOnly
                     />
                   )}
@@ -262,7 +276,7 @@ export default function Profile() {
                   htmlFor="password"
                   className="block text-sm font-medium leading-6 text-gray-900"
                 >
-                  Password
+                  Password*
                 </label>
                 <div className="mt-2">
                   <input
@@ -270,7 +284,12 @@ export default function Profile() {
                     name="password"
                     type="password"
                     value={form.password}
-                    className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-main sm:text-sm sm:leading-6"
+                    className={classNames(
+                      !isEditMode
+                        ? "ring-gray-300 text-gray-400"
+                        : "ring-main focus:ring-2 focus:ring-inset focus:ring-main text-gray-900",
+                      "block w-full rounded-md border-0 py-1.5 shadow-sm ring-1 ring-inset placeholder:text-gray-400 sm:text-sm sm:leading-6 "
+                    )}
                     onChange={(e) => updateForm({ password: e.target.value })}
                     readOnly={!isEditMode}
                   />
