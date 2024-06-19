@@ -21,6 +21,9 @@ export type GeojsonFeature = {
     Creator: string;
     X: string;
     Y: string;
+    ART: string;
+    HORT: number;
+    KITA: number;
   };
 };
 
