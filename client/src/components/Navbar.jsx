@@ -11,7 +11,7 @@ import { useState, useEffect } from "react";
 
 const navigation = [
   { name: "Home", href: "/" },
-  { name: "Route", href: "/route" },
+  { name: "Directions", href: "/directions" },
   { name: "Impressum", href: "/impressum" },
 ];
 
