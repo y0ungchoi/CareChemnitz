@@ -1,5 +1,3 @@
-//Tailwind filter example
-//https://tailwindui.com/components/ecommerce/components/category-filters
 import {
   Dialog,
   DialogPanel,
@@ -13,21 +11,47 @@ const filters = [
   {
     id: "Jugendberufshilfen",
     name: "Jugendberufshilfen",
-  },
-  {
-    id: "Schulen",
-    name: "Schulen",
+    color: "red",
   },
   {
     id: "Schulsozialarbeit",
     name: "Schulsozialarbeit",
+    color: "yellow",
+  },
+  {
+    id: "Erzieherische_Hilfen",
+    name: "Erzieherische Hilfen",
+    color: "purple",
   },
   {
     id: "Kindertageseinrichtungen",
     name: "Kindertageseinrichtungen",
+    color: "blue",
     options: [
       { value: "hort", label: "Hort", checked: false },
       { value: "kita", label: "Kita", checked: false },
+    ],
+  },
+  {
+    id: "Schulen",
+    name: "Schulen",
+    color: "green",
+    options: [
+      { value: "grundschule", label: "Grundschule", checked: false },
+      { value: "iberschule", label: "Oberschule", checked: false },
+      { value: "gymnasium", label: "Gymnasium", checked: false },
+      { value: "förderschule", label: "Förderschule", checked: false },
+      {
+        value: "berufsbildende",
+        label: "Berufsbildende Schule",
+        checked: false,
+      },
+      { value: "sonstige", label: "Sonstige Einrichtung", checked: false },
+      {
+        value: "bildungsweges",
+        label: "Schule des zweiten Bildungsweges",
+        checked: false,
+      },
     ],
   },
 ];
@@ -110,22 +134,26 @@ export default function SideFilter({
                       role="list"
                       className="px-2 py-3 font-medium text-gray-900"
                     >
-                      <li>
+                      <li className="flex content-start">
                         <input
                           className="h-4 w-4 rounded border-gray-300 text-main focus:ring-main"
                           type="checkbox"
                           name={section.name}
-                          value={section.name}
+                          value={section.id}
                           id={`filter-mobile-${section.name}`}
-                          checked={isChecked(section.name)}
+                          checked={isChecked(section.id)}
                           onChange={handleFilterChange}
                         />
                         <label
                           htmlFor={`filter-mobile-${section.name}`}
-                          className="ml-3 min-w-0 flex-1 text-gray-900"
+                          className="ml-3 min-w-0 text-gray-900"
                         >
                           {section.name}
                         </label>
+                        <img
+                          src={`http://maps.google.com/mapfiles/ms/icons/${section.color}-dot.png`}
+                          className="w-6"
+                        />
                       </li>
                       {section.options &&
                         section.options.map((option, optionIdx) => (
@@ -166,14 +194,14 @@ export default function SideFilter({
             role="list"
             className="space-y-4 pb-6 text-sm font-medium text-gray-900"
           >
-            <li>
+            <li className="flex">
               <input
                 className="h-4 w-4 rounded border-gray-300 text-main focus:ring-main"
                 type="checkbox"
                 name={section.name}
-                value={section.name}
+                value={section.id}
                 id={`checkbox-${section.name}`}
-                checked={isChecked(section.name)}
+                checked={isChecked(section.id)}
                 onChange={handleFilterChange}
               />
               <label
@@ -182,6 +210,10 @@ export default function SideFilter({
               >
                 {section.name}
               </label>
+              <img
+                src={`http://maps.google.com/mapfiles/ms/icons/${section.color}-dot.png`}
+                className="w-5"
+              />
             </li>
             {section.options &&
               section.options.map((option, optionIdx) => (

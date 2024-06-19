@@ -264,13 +264,28 @@ export default function SlidePanel({
                   className="absolute right-2 h-6 w-6"
                 />
               </DialogTitle>
-
-              <ul
-                role="list"
-                className="divide-y divide-gray-100 overflow-y-auto"
-              >
-                {facilityList()}
-              </ul>
+              {loading ? (
+                <ul role="list" className="divide-y divide-gray-100">
+                  <li className="flex justify-between gap-x-6 py-5">
+                    <div className="flex min-w-0 gap-x-4">
+                      <div className="min-w-0 flex-auto">
+                        <p className="text-sm leading-6 text-gray-900">
+                          Loading...
+                        </p>
+                      </div>
+                    </div>
+                  </li>
+                </ul>
+              ) : selectedFacility ? (
+                facilityDetail()
+              ) : (
+                <ul
+                  role="list"
+                  className="divide-y divide-gray-100 overflow-y-auto"
+                >
+                  {facilityList()}
+                </ul>
+              )}
             </DialogPanel>
           </Dialog>
         </Transition>
