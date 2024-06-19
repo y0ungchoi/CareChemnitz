@@ -35,7 +35,7 @@ export default function Mainpage() {
       <div className="mx-auto max-w-7xl py-6 px-6 sm:px-6 lg:px-8">
         <div className="flex items-baseline justify-between border-b border-gray-200 py-6">
           <h1 className="text-4xl font-bold tracking-tight text-gray-900">
-            Maps
+            Facility in Chemnitz
           </h1>
           <div className="flex items-center">
             <button
