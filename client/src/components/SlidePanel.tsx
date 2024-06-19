@@ -235,6 +235,26 @@ export default function SlidePanel({
     lng: number;
   }) {
     try {
+      // Fetch the current user data
+      const userResponse = await fetch(
+        `http://localhost:5050/record/profile/${id}`
+      );
+      if (!userResponse.ok) {
+        throw new Error(`HTTP error! status: ${userResponse.status}`);
+      }
+      const userData = await userResponse.json();
+
+      // Update only the favorite place information
+      const updatedData = {
+        ...userData,
+        favPlace: facilityName,
+        location: {
+          lat: lat,
+          lng: lng,
+        },
+      };
+
+      // Send the updated data back to the server
       const response = await fetch(
         `http://localhost:5050/record/profile/${id}`,
         {
@@ -242,18 +262,13 @@ export default function SlidePanel({
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify({
-            favPlace: facilityName,
-            location: {
-              lat: lat,
-              lng: lng,
-            },
-          }),
+          body: JSON.stringify(updatedData),
         }
       );
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
+
       sessionStorage.setItem("favLocation", JSON.stringify({ lat, lng }));
     } catch (error) {
       console.error("A problem occurred adding or updating a record: ", error);
