@@ -134,7 +134,7 @@ export default function SideFilter({
                       role="list"
                       className="px-2 py-3 font-medium text-gray-900"
                     >
-                      <li>
+                      <li className="flex content-start">
                         <input
                           className="h-4 w-4 rounded border-gray-300 text-main focus:ring-main"
                           type="checkbox"
@@ -144,16 +144,16 @@ export default function SideFilter({
                           checked={isChecked(section.id)}
                           onChange={handleFilterChange}
                         />
-                        <img
-                          src="http://maps.google.com/mapfiles/ms/icons/purple-dot.png"
-                          className="w-6"
-                        />
                         <label
                           htmlFor={`filter-mobile-${section.name}`}
-                          className="ml-3 min-w-0 flex-1 text-gray-900"
+                          className="ml-3 min-w-0 text-gray-900"
                         >
                           {section.name}
                         </label>
+                        <img
+                          src={`http://maps.google.com/mapfiles/ms/icons/${section.color}-dot.png`}
+                          className="w-6"
+                        />
                       </li>
                       {section.options &&
                         section.options.map((option, optionIdx) => (
@@ -204,7 +204,6 @@ export default function SideFilter({
                 checked={isChecked(section.id)}
                 onChange={handleFilterChange}
               />
-
               <label
                 className="ml-3 font-medium text-gray-900"
                 htmlFor={`checkbox-${section.name}`}
