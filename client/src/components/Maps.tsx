@@ -37,7 +37,7 @@ const colorMarker: { [key: string]: string } = {
   Kindertageseinrichtungen: "blue",
   Schulen: "green",
   Schulsozialarbeit: "yellow",
-  Erzieherische_Hilfen: "purple",
+  Erzieherische_Hilfen: "pink",
 };
 
 type MapsProps = {
@@ -120,8 +120,8 @@ export default function Maps({
                       }}
                       icon={{
                         url: `http://maps.google.com/mapfiles/ms/icons/${
-                          isSelected ? "purple" : colorMarker[geojson.name]
-                        }-dot.png`,
+                          isSelected ? "purple-dot" : colorMarker[geojson.name]
+                        }.png`,
                       }}
                       onClick={() => handleFacilityClick(geojson.name, feature)}
                     />
