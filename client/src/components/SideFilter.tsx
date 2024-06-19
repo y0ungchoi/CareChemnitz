@@ -11,10 +11,31 @@ const filters = [
   {
     id: "Jugendberufshilfen",
     name: "Jugendberufshilfen",
+    color: "red",
+  },
+  {
+    id: "Schulsozialarbeit",
+    name: "Schulsozialarbeit",
+    color: "yellow",
+  },
+  {
+    id: "Erzieherische_Hilfen",
+    name: "Erzieherische Hilfen",
+    color: "purple",
+  },
+  {
+    id: "Kindertageseinrichtungen",
+    name: "Kindertageseinrichtungen",
+    color: "blue",
+    options: [
+      { value: "hort", label: "Hort", checked: false },
+      { value: "kita", label: "Kita", checked: false },
+    ],
   },
   {
     id: "Schulen",
     name: "Schulen",
+    color: "green",
     options: [
       { value: "grundschule", label: "Grundschule", checked: false },
       { value: "iberschule", label: "Oberschule", checked: false },
@@ -32,22 +53,6 @@ const filters = [
         checked: false,
       },
     ],
-  },
-  {
-    id: "Schulsozialarbeit",
-    name: "Schulsozialarbeit",
-  },
-  {
-    id: "Kindertageseinrichtungen",
-    name: "Kindertageseinrichtungen",
-    options: [
-      { value: "hort", label: "Hort", checked: false },
-      { value: "kita", label: "Kita", checked: false },
-    ],
-  },
-  {
-    id: "Erzieherische_Hilfen",
-    name: "Erzieherische Hilfen",
   },
 ];
 
@@ -139,6 +144,10 @@ export default function SideFilter({
                           checked={isChecked(section.id)}
                           onChange={handleFilterChange}
                         />
+                        <img
+                          src="http://maps.google.com/mapfiles/ms/icons/purple-dot.png"
+                          className="w-6"
+                        />
                         <label
                           htmlFor={`filter-mobile-${section.name}`}
                           className="ml-3 min-w-0 flex-1 text-gray-900"
@@ -185,7 +194,7 @@ export default function SideFilter({
             role="list"
             className="space-y-4 pb-6 text-sm font-medium text-gray-900"
           >
-            <li>
+            <li className="flex">
               <input
                 className="h-4 w-4 rounded border-gray-300 text-main focus:ring-main"
                 type="checkbox"
@@ -195,12 +204,17 @@ export default function SideFilter({
                 checked={isChecked(section.id)}
                 onChange={handleFilterChange}
               />
+
               <label
                 className="ml-3 font-medium text-gray-900"
                 htmlFor={`checkbox-${section.name}`}
               >
                 {section.name}
               </label>
+              <img
+                src={`http://maps.google.com/mapfiles/ms/icons/${section.color}-dot.png`}
+                className="w-5"
+              />
             </li>
             {section.options &&
               section.options.map((option, optionIdx) => (
