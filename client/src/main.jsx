@@ -7,6 +7,7 @@ import Signin from "./pages/Signin";
 import Signup from "./pages/Signup";
 import Profile from "./pages/Profile";
 import Impressum from "./pages/Impressum";
+import Directions from "./pages/Directions";
 import "./index.css";
 
 const router = createBrowserRouter([
@@ -21,6 +22,10 @@ const router = createBrowserRouter([
       {
         path: "/impressum",
         element: <Impressum />,
+      },
+      {
+        path: "/directions",
+        element: <Directions />,
       },
     ],
   },
