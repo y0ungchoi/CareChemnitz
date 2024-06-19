@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import {
   APIProvider,
   Map,
@@ -24,8 +25,22 @@ function RoutesDirections({
     useState<google.maps.DirectionsService | null>(null);
   const [directionsRenderer, setDirectionsRenderer] =
     useState<google.maps.DirectionsRenderer | null>(null);
+  const navigate = useNavigate();
+
+  const homeLocation = JSON.parse(
+    sessionStorage.getItem("homeLocation") || "null"
+  );
+  const favLocation = JSON.parse(
+    sessionStorage.getItem("favLocation") || "null"
+  );
 
   useEffect(() => {
+    if (!homeLocation || !favLocation) {
+      alert("Please set your home and favorite locations");
+      navigate("/profile");
+      return;
+    }
+
     if (!routesLibrary || !map) return;
     const service = new routesLibrary.DirectionsService();
     const renderer = new routesLibrary.DirectionsRenderer({ map });
@@ -38,8 +53,8 @@ function RoutesDirections({
 
     directionsService.route(
       {
-        origin: { lat: 50.82765448060148, lng: 12.921883532093682 },
-        destination: "Bernsdorfer str 82 Chemnitz",
+        origin: { lat: homeLocation.lat, lng: homeLocation.lng },
+        destination: { lat: favLocation.lat, lng: favLocation.lng },
         travelMode: google.maps.TravelMode.WALKING,
         provideRouteAlternatives: true,
       },
