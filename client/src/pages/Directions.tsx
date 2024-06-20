@@ -121,7 +121,7 @@ export default function Directions() {
                 </APIProvider>
               </div>
             </div>
-            <div className="md:col-span-1 p-4 bg-white shadow rounded-lg">
+            <div className="md:col-span-1 p-4 mb-7 bg-white shadow rounded-lg">
               {selected && leg ? (
                 <div className="directions space-y-4">
                   <h2 className="text-xl font-semibold">{selected.summary}</h2>
