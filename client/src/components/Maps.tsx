@@ -66,8 +66,37 @@ export default function Maps({
   let homeLocation: { lat: number; lng: number } | null = null;
   let favLocation: { lat: number; lng: number } | null = null;
 
-  homeLocation = JSON.parse(sessionStorage.getItem("homeLocation") || "{}");
-  favLocation = JSON.parse(sessionStorage.getItem("favLocation") || "{}");
+  const homeLocationData = sessionStorage.getItem("homeLocation");
+  if (homeLocationData) {
+    try {
+      const parsedHomeLocation = JSON.parse(homeLocationData);
+      if (
+        parsedHomeLocation &&
+        typeof parsedHomeLocation.lat === "number" &&
+        typeof parsedHomeLocation.lng === "number"
+      ) {
+        homeLocation = parsedHomeLocation;
+      }
+    } catch (e) {
+      console.error("Invalid homeLocation data", e);
+    }
+  }
+
+  const favLocationData = sessionStorage.getItem("favLocation");
+  if (favLocationData) {
+    try {
+      const parsedFavLocation = JSON.parse(favLocationData);
+      if (
+        parsedFavLocation &&
+        typeof parsedFavLocation.lat === "number" &&
+        typeof parsedFavLocation.lng === "number"
+      ) {
+        favLocation = parsedFavLocation;
+      }
+    } catch (e) {
+      console.error("Invalid favLocation data", e);
+    }
+  }
 
   useEffect(() => {
     async function getFacilities(facilityInfo: FacilityInfo) {
