@@ -148,7 +148,7 @@ export default function Maps({
 
                   return (
                     <Marker
-                      key={index}
+                      key={`${geojson.name}-${index}`}
                       position={{
                         lat: feature.geometry.coordinates[1],
                         lng: feature.geometry.coordinates[0],
