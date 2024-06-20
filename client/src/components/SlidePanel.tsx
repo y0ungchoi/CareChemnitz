@@ -237,7 +237,7 @@ export default function SlidePanel({
     try {
       // Fetch the current user data
       const userResponse = await fetch(
-        `http://localhost:5050/record/profile/${id}`
+        `http://localhost:5050/api/v1/auth/profile/${id}`
       );
       if (!userResponse.ok) {
         throw new Error(`HTTP error! status: ${userResponse.status}`);
@@ -256,7 +256,7 @@ export default function SlidePanel({
 
       // Send the updated data back to the server
       const response = await fetch(
-        `http://localhost:5050/record/profile/${id}`,
+        `http://localhost:5050/api/v1/auth/profile/${id}`,
         {
           method: "PATCH",
           headers: {
