@@ -21,6 +21,7 @@ function RoutesDirections({
 }) {
   const map = useMap();
   const routesLibrary = useMapsLibrary("routes");
+  const [alertShown, setAlertShown] = useState(false);
   const [directionsService, setDirectionsService] =
     useState<google.maps.DirectionsService | null>(null);
   const [directionsRenderer, setDirectionsRenderer] =
@@ -36,7 +37,10 @@ function RoutesDirections({
 
   useEffect(() => {
     if (!homeLocation || !favLocation) {
-      alert("Please set your home and favorite locations");
+      if (!alertShown) {
+        alert("Please set your home and favorite locations");
+        setAlertShown(true);
+      }
       navigate("/profile");
       return;
     }
