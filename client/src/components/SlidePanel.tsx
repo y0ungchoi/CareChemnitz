@@ -200,7 +200,7 @@ export default function SlidePanel({
             <p className="flex items-center mb-2">
               <GlobeAsiaAustraliaIcon className="flex-shrink-0 text-main mr-1 w-5" />
               <a
-                href={website}
+                href={`//${website}`}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="hover:underline hover:text-main"
