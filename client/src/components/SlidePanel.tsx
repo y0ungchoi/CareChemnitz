@@ -78,7 +78,7 @@ export default function SlidePanel({
   handleFacilityClick,
 }: SlidePanelProps) {
   const handleBackClick = () => {
-    handleFacilityClick(null);
+    selectedFacility ? handleFacilityClick(null) : toggleMobSlidePanel();
   };
   const id = sessionStorage.getItem("userId") || undefined;
   const [isOpen, setIsOpen] = useState(false);
@@ -327,9 +327,8 @@ export default function SlidePanel({
           >
             <DialogPanel className="w-full h-3/4 bg-white shadow-lg overflow-y-auto p-4">
               <DialogTitle className="flex font-bold text-lg">
-                Facility List
                 <XMarkIcon
-                  onClick={() => setIsOpen(false)}
+                  onClick={() => handleBackClick()}
                   className="absolute right-2 h-6 w-6"
                 />
               </DialogTitle>
