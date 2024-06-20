@@ -167,7 +167,6 @@ export default function SideFilter({
                                 defaultValue={option.value}
                                 type="checkbox"
                                 checked={isChecked(option.value)}
-                                defaultChecked={option.checked}
                                 className="h-4 w-4 rounded border-gray-300 text-main focus:ring-main"
                                 onChange={handleOptions}
                               />
