@@ -26,6 +26,16 @@ export default function Impressum() {
               Phone: +49 178 937268 <br />
               Email: youngchoi2094@gmail.com <br />
             </p>
+            <p className="text-[11px] font-medium text-[#646464]">
+              © {new Date().getFullYear()} Care Chemnitz <br /> Developed by{" "}
+              <a
+                target="_blank"
+                rel="noreferrer"
+                href="https://www.radiustheme.com/"
+              >
+                Eun-young Choi
+              </a>
+            </p>
           </div>
         </section>
       </div>

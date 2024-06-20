@@ -1,4 +1,4 @@
-//https://medium.com/@ryaddev/creating-a-responsive-footer-component-in-react-using-tailwind-css-7b8a7a4a007d
+import { NavLink } from "react-router-dom";
 
 function Footer() {
   return (
@@ -25,8 +25,8 @@ function Footer() {
             <div className="flex flex-col md:p-0 gap-1 relative">
               <div className="flex flex-col h-[7rem] md:p-0 gap-1"></div>
               <p className="text-[11px] font-medium text-[#646464] text-right">
-                Privacy Policy | © {new Date().getFullYear()} Care Chemnitz{" "}
-                <br /> Developed by{" "}
+                <NavLink to="/impressum">Impressum</NavLink> | ©{" "}
+                {new Date().getFullYear()} Care Chemnitz <br /> Developed by{" "}
                 <a
                   target="_blank"
                   rel="noreferrer"

@@ -25,7 +25,7 @@ export default function Profile() {
     async function fetchData() {
       if (!id) return navigate("/signin");
       const response = await fetch(
-        `http://localhost:5050/record/profile/${id}`
+        `http://localhost:5050/api/v1/auth/profile/${id}`
       );
       if (!response.ok) {
         const message = `An error has occurred: ${response.statusText}`;
@@ -55,7 +55,7 @@ export default function Profile() {
     const person = { ...form };
     try {
       const response = await fetch(
-        `http://localhost:5050/record/profile/${id}`,
+        `http://localhost:5050/api/v1/auth/profile/${id}`,
         {
           method: "PATCH",
           headers: {
@@ -71,7 +71,7 @@ export default function Profile() {
 
       // Refetch the updated profile information
       const updatedResponse = await fetch(
-        `http://localhost:5050/record/profile/${id}`
+        `http://localhost:5050/api/v1/auth/profile/${id}`
       );
       if (!updatedResponse.ok) {
         throw new Error(`HTTP error! status: ${updatedResponse.status}`);
@@ -90,7 +90,7 @@ export default function Profile() {
 
   async function deleteRecord(id) {
     if (window.confirm("Are you sure you want to delete this record?")) {
-      await fetch(`http://localhost:5050/record/profile/${id}`, {
+      await fetch(`http://localhost:5050/api/v1/auth/profile/${id}`, {
         method: "DELETE",
       });
       sessionStorage.clear();

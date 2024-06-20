@@ -8,7 +8,7 @@ export default function Signin() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const response = await fetch("http://localhost:5050/record/signin", {
+    const response = await fetch("http://localhost:5050/api/v1/auth/signin", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

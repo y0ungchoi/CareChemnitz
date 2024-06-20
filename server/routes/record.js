@@ -1,30 +1,35 @@
 import express from "express";
 import db from "../db/connection.js";
 
-// This help convert the id from string to ObjectId for the _id.
 import { ObjectId } from "mongodb";
 
-// router is an instance of the express router.
-// We use it to define our routes.
-// The router will be added as a middleware and will take control of requests starting with path /record.
 const router = express.Router();
 const collection = await db.collection("users");
 
 router.post("/signup", async (req, res) => {
   try {
-    let newDocument = {
-      firstName: req.body.firstName,
-      lastName: req.body.lastName,
-      email: req.body.email,
-      password: req.body.password,
-    };
+    const { firstName, lastName, email, password } = req.body;
+
+    if (!firstName || !lastName || !email || !password) {
+      return res.status(400).json({ error: "All fields are required" });
+    }
+
+    const existingUser = await collection.findOne({ email });
+    if (existingUser) {
+      return res.status(409).json({ error: "Email is already registered" });
+    }
+
+    let newDocument = { firstName, lastName, email, password };
     let result = await collection.insertOne(newDocument);
 
-    if (!result) res.send("Not found").status(404);
-    else res.send(result).status(200);
+    if (!result) {
+      return res.status(404).json({ error: "Failed to create new user" });
+    }
+
+    res.status(200).json({ message: "Successful registration" });
   } catch (err) {
     console.error(err);
-    res.status(500).send("Error adding record");
+    res.status(500).json({ error: "Error adding record" });
   }
 });
 
@@ -33,11 +38,13 @@ router.post("/signin", async (req, res) => {
     let query = { email: req.body.email, password: req.body.password };
     let result = await collection.findOne(query);
 
-    if (!result) res.send("Not found").status(404);
-    else res.send(result).status(200);
+    if (!result) res.status(404).json({ error: "Not found the user" });
+    else {
+      res.send(result).status(200);
+    }
   } catch (err) {
     console.error(err);
-    res.status(500).send("Error signing in");
+    res.status(500).json({ error: "Error signing in" });
   }
 });
 
@@ -46,11 +53,11 @@ router.get("/profile/:id", async (req, res) => {
     let query = { _id: new ObjectId(req.params.id) };
     let result = await collection.findOne(query);
 
-    if (!result) res.send("Not found").status(404);
+    if (!result) res.status(404).json({ error: "Not found the user" });
     else res.send(result).status(200);
   } catch (err) {
     console.error(err);
-    res.status(500).send("Error getting record");
+    res.status(500).json({ error: "Error getting record" });
   }
 });
 
@@ -70,11 +77,10 @@ router.patch("/profile/:id", async (req, res) => {
     };
     let result = await collection.updateOne(query, updates);
 
-    if (!result) res.send("Not found").status(404);
-    else res.send(result).status(200);
+    res.send(result).status(200);
   } catch (err) {
     console.error(err);
-    res.status(500).send("Error updating record");
+    res.status(500).json({ error: "Error updating record" });
   }
 });
 
@@ -83,11 +89,11 @@ router.delete("/profile/:id", async (req, res) => {
     let query = { _id: new ObjectId(req.params.id) };
     let result = await collection.deleteOne(query);
 
-    if (!result) res.send("Not found").status(404);
+    if (!result) res.status(404).json({ error: "Not found the user" });
     else res.send(result).status(200);
   } catch (err) {
     console.error(err);
-    res.status(500).send("Error deleting record");
+    res.status(500).json({ error: "Error deleting record" });
   }
 });
 

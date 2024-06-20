@@ -21,7 +21,7 @@ const filters = [
   {
     id: "Erzieherische_Hilfen",
     name: "Erzieherische Hilfen",
-    color: "purple",
+    color: "pink",
   },
   {
     id: "Kindertageseinrichtungen",

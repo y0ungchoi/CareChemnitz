@@ -13,7 +13,7 @@ router.post("/facilities", async (req, res) => {
     res.status(200).send(results);
   } catch (err) {
     console.error(err);
-    res.status(500).send("Error getting records");
+    res.status(500).json({ error: "Error getting records" });
   }
 });
 

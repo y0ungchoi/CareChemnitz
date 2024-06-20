@@ -21,6 +21,9 @@ export type GeojsonFeature = {
     Creator: string;
     X: string;
     Y: string;
+    ART: string;
+    HORT: number;
+    KITA: number;
   };
 };
 
@@ -37,7 +40,7 @@ const colorMarker: { [key: string]: string } = {
   Kindertageseinrichtungen: "blue",
   Schulen: "green",
   Schulsozialarbeit: "yellow",
-  Erzieherische_Hilfen: "purple",
+  Erzieherische_Hilfen: "pink",
 };
 
 type MapsProps = {
@@ -70,13 +73,16 @@ export default function Maps({
     async function getFacilities(facilityInfo: FacilityInfo) {
       setLoading(true);
       let facilities = facilityInfo.facilities;
-      const response = await fetch("http://localhost:5050/map/facilities", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ facilities }),
-      });
+      const response = await fetch(
+        "http://localhost:5050/api/v1/map/facilities",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ facilities }),
+        }
+      );
       if (!response.ok) {
         console.error("Failed to fetch facilities data");
         setLoading(false);
@@ -120,8 +126,8 @@ export default function Maps({
                       }}
                       icon={{
                         url: `http://maps.google.com/mapfiles/ms/icons/${
-                          isSelected ? "purple" : colorMarker[geojson.name]
-                        }-dot.png`,
+                          isSelected ? "purple-dot" : colorMarker[geojson.name]
+                        }.png`,
                       }}
                       onClick={() => handleFacilityClick(geojson.name, feature)}
                     />
