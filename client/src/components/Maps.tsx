@@ -73,13 +73,16 @@ export default function Maps({
     async function getFacilities(facilityInfo: FacilityInfo) {
       setLoading(true);
       let facilities = facilityInfo.facilities;
-      const response = await fetch("http://localhost:5050/map/facilities", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ facilities }),
-      });
+      const response = await fetch(
+        "http://localhost:5050/api/v1/map/facilities",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ facilities }),
+        }
+      );
       if (!response.ok) {
         console.error("Failed to fetch facilities data");
         setLoading(false);

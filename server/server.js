@@ -9,7 +9,7 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 app.use("/api/v1/auth", records);
-app.use("/map", maps);
+app.use("/api/v1/map", maps);
 
 // start the Express server
 app.listen(PORT, () => {
