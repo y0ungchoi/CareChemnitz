@@ -177,6 +177,7 @@ async function initializeDatabase() {
     ]);
 
     console.log("Database initialized successfully");
+    db.client.close();
   } catch (err) {
     console.error("Error initializing database:", err);
   }
