@@ -31,7 +31,7 @@ export default function Impressum() {
               <a
                 target="_blank"
                 rel="noreferrer"
-                href="https://www.radiustheme.com/"
+                href="https://github.com/y0ungchoi"
               >
                 Eun-young Choi
               </a>
