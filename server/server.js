@@ -8,7 +8,7 @@ const app = express();
 
 app.use(cors());
 app.use(express.json());
-app.use("/record", records);
+app.use("/api/v1/auth", records);
 app.use("/map", maps);
 
 // start the Express server

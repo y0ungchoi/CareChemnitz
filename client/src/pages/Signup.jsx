@@ -1,85 +1,49 @@
-import { useState, useEffect } from "react";
-import { useNavigate, useParams, NavLink } from "react-router-dom";
+import { useState } from "react";
+import { useNavigate, NavLink } from "react-router-dom";
 
 export default function Signup() {
-  const [form, setForm] = useState({
+  const [formData, setFormData] = useState({
     firstName: "",
     lastName: "",
     email: "",
     password: "",
   });
-  const [isNew, setIsNew] = useState(true);
-  const params = useParams();
+  const [message, setMessage] = useState("");
   const navigate = useNavigate();
 
-  useEffect(() => {
-    async function fetchData() {
-      const id = params.id?.toString() || undefined;
-      if (!id) return;
-      setIsNew(false);
-      const response = await fetch(
-        `http://localhost:5050/record/${params.id.toString()}`
-      );
-      if (!response.ok) {
-        const message = `An error has occurred: ${response.statusText}`;
-        console.error(message);
-        return;
-      }
-      const record = await response.json();
-      if (!record) {
-        console.warn(`Record with id ${id} not found`);
-        navigate("/");
-        return;
-      }
-      setForm(record);
-    }
-    fetchData();
-    return;
-  }, [params.id, navigate]);
-
-  // These methods will update the state properties.
-  function updateForm(value) {
-    return setForm((prev) => {
-      return { ...prev, ...value };
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({
+      ...formData,
+      [name]: value,
     });
-  }
+  };
 
-  // This function will handle the submission.
-  async function onSubmit(e) {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    const person = { ...form };
     try {
-      let response;
-      if (isNew) {
-        // if we are adding a new record we will POST to /record.
-        response = await fetch("http://localhost:5050/record/signup", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(person),
-        });
-      } else {
-        // if we are updating a record we will PATCH to /record/:id.
-        response = await fetch(`http://localhost:5050/record/${params.id}`, {
-          method: "PATCH",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(person),
-        });
-      }
+      const response = await fetch("http://localhost:5050/api/v1/auth/signup", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      });
 
       if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
+        throw new Error("Something went wrong");
       }
+
+      const result = await response.json();
+      setMessage("Sign up successful!");
+      console.log(result);
+      navigate("/signin");
     } catch (error) {
-      console.error("A problem occurred adding or updating a record: ", error);
-    } finally {
-      setForm({ firstName: "", lastName: "", email: "", password: "" });
-      navigate("/signIn");
+      setMessage("Sign up failed!");
+      console.error(error);
     }
-  }
+  };
+
   return (
     <>
       <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
@@ -88,9 +52,8 @@ export default function Signup() {
             Join us today
           </h2>
         </div>
-
         <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-          <form className="space-y-6" method="POST" onSubmit={onSubmit}>
+          <form className="space-y-6" method="POST" onSubmit={handleSubmit}>
             <div>
               <label
                 htmlFor="firstName"
@@ -106,8 +69,8 @@ export default function Signup() {
                   autoComplete="given-name"
                   required
                   className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-main sm:text-sm sm:leading-6"
-                  value={form.firstName}
-                  onChange={(e) => updateForm({ firstName: e.target.value })}
+                  value={formData.firstName}
+                  onChange={handleChange}
                 />
               </div>
             </div>
@@ -126,12 +89,11 @@ export default function Signup() {
                   autoComplete="family-Name"
                   required
                   className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-main sm:text-sm sm:leading-6"
-                  value={form.lastName}
-                  onChange={(e) => updateForm({ lastName: e.target.value })}
+                  value={formData.lastName}
+                  onChange={handleChange}
                 />
               </div>
             </div>
-
             <div>
               <label
                 htmlFor="email"
@@ -147,12 +109,11 @@ export default function Signup() {
                   autoComplete="email"
                   required
                   className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-main sm:text-sm sm:leading-6"
-                  value={form.email}
-                  onChange={(e) => updateForm({ email: e.target.value })}
+                  value={formData.email}
+                  onChange={handleChange}
                 />
               </div>
             </div>
-
             <div>
               <div className="flex items-center justify-between">
                 <label
@@ -170,12 +131,12 @@ export default function Signup() {
                   autoComplete="current-password"
                   required
                   className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-main sm:text-sm sm:leading-6"
-                  value={form.password}
-                  onChange={(e) => updateForm({ password: e.target.value })}
+                  value={formData.password}
+                  onChange={handleChange}
                 />
               </div>
+              {message && <p>{message}</p>}
             </div>
-
             <div>
               <button
                 type="submit"
