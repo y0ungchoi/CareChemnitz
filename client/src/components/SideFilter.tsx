@@ -85,6 +85,8 @@ export default function SideFilter({
   };
   const isChecked = (value: string) => facilityInfo.facilities.includes(value);
 
+  function handleOptions() {}
+
   return (
     <div className="hidden lg:block">
       {/* Mobile filter dialog */}
@@ -167,6 +169,7 @@ export default function SideFilter({
                                 checked={isChecked(option.value)}
                                 defaultChecked={option.checked}
                                 className="h-4 w-4 rounded border-gray-300 text-main focus:ring-main"
+                                onChange={handleOptions}
                               />
                               <label
                                 htmlFor={`filter-mobile-${section.id}-${optionIdx}`}
@@ -226,6 +229,7 @@ export default function SideFilter({
                       type="checkbox"
                       checked={isChecked(option.value)}
                       className="h-4 w-4 rounded border-gray-300 text-main focus:ring-main"
+                      onChange={handleOptions}
                     />
                     <label
                       htmlFor={`filter-${section.id}-${optionIdx}`}
