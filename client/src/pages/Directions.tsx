@@ -6,6 +6,7 @@ import {
   useMapsLibrary,
   useMap,
 } from "@vis.gl/react-google-maps";
+import { HeartIcon, HomeIcon } from "@heroicons/react/24/outline";
 
 interface Route {
   summary: string;
@@ -124,12 +125,14 @@ export default function Directions() {
               {selected && leg ? (
                 <div className="directions space-y-4">
                   <h2 className="text-xl font-semibold">{selected.summary}</h2>
-                  <p>
+                  <p className="flex">
+                    <HomeIcon className="flex-shrink-0 text-main mr-1 w-5" />
                     {leg.start_address.split(",")[0]} to{" "}
+                    <HeartIcon className="flex-shrink-0 text-main mx-1 w-5" />
                     {leg.end_address.split(",")[0]}
                   </p>
                   <p>Distance: {leg.distance?.text}</p>
-                  <p>Duration: {leg.duration?.text}</p>
+                  <p>Duration: {leg.duration?.text} by walk</p>
 
                   <h2 className="text-lg font-semibold">Other Routes</h2>
                   <ul className="space-y-2">
