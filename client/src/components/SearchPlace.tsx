@@ -18,7 +18,7 @@ interface SearchPlaceProps {
 }
 
 function SearchPlace({ onPlaceSelect, item, id }: SearchPlaceProps) {
-  const [selected, setSelected] = useState("");
+  const [selected, setSelected] = useState(item);
   const [autoCompletePlaces, setAutoCompletePlaces] = useState<Place[]>([]);
 
   async function getAutoCompletePlaces(input: string) {
@@ -51,7 +51,7 @@ function SearchPlace({ onPlaceSelect, item, id }: SearchPlaceProps) {
   return (
     <div>
       <Combobox
-        value={selected ? selected : item}
+        value={selected}
         onChange={(selected) => handlePlaceSelect(selected || "")}
       >
         <div className="relative mt-1">
