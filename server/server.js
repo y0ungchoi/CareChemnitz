@@ -11,7 +11,6 @@ app.use(express.json());
 app.use("/api/v1/auth", records);
 app.use("/api/v1/map", maps);
 
-// start the Express server
 app.listen(PORT, () => {
   console.log(`Server listening on port ${PORT}`);
 });

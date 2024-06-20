@@ -235,7 +235,6 @@ export default function SlidePanel({
     lng: number;
   }) {
     try {
-      // Fetch the current user data
       const userResponse = await fetch(
         `http://localhost:5050/api/v1/auth/profile/${id}`
       );
@@ -244,7 +243,6 @@ export default function SlidePanel({
       }
       const userData = await userResponse.json();
 
-      // Update only the favorite place information
       const updatedData = {
         ...userData,
         favPlace: facilityName,
@@ -254,7 +252,6 @@ export default function SlidePanel({
         },
       };
 
-      // Send the updated data back to the server
       const response = await fetch(
         `http://localhost:5050/api/v1/auth/profile/${id}`,
         {

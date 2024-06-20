@@ -69,7 +69,6 @@ export default function Profile() {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
 
-      // Refetch the updated profile information
       const updatedResponse = await fetch(
         `http://localhost:5050/api/v1/auth/profile/${id}`
       );
@@ -78,7 +77,7 @@ export default function Profile() {
       }
       const updatedRecord = await updatedResponse.json();
       setForm(updatedRecord);
-      setIsEditMode(false); // Exit edit mode after saving
+      setIsEditMode(false);
     } catch (error) {
       console.error("A problem occurred adding or updating a record: ", error);
     }
