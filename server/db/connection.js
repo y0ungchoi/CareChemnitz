@@ -1,8 +1,11 @@
 import { MongoClient, ServerApiVersion } from "mongodb";
 
-const db_uri = "mongodb://localhost:27017"; // compass로 접속할 때 쓰이는 uri와 같다.
+// Local db
+const db_uri = "mongodb://localhost:27017";
 
+// MongoDB Atlas
 const uri = process.env.ATLAS_URI || "";
+
 const client = new MongoClient(db_uri, {
   serverApi: {
     version: ServerApiVersion.v1,
@@ -12,9 +15,7 @@ const client = new MongoClient(db_uri, {
 });
 
 try {
-  // Connect the client to the server
   await client.connect();
-  // Send a ping to confirm a successful connection
   await client.db("admin").command({ ping: 1 });
   console.log("Pinged your deployment. You successfully connected to MongoDB!");
 } catch (err) {
