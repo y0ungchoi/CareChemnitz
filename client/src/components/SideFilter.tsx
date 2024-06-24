@@ -153,7 +153,7 @@ export default function SideFilter({
                           {section.name}
                         </label>
                         <img
-                          src={`http://maps.google.com/mapfiles/ms/icons/${section.color}-dot.png`}
+                          src={`http://maps.google.com/mapfiles/ms/icons/${section.color}.png`}
                           className="w-6"
                         />
                       </li>
@@ -213,7 +213,7 @@ export default function SideFilter({
                 {section.name}
               </label>
               <img
-                src={`http://maps.google.com/mapfiles/ms/icons/${section.color}-dot.png`}
+                src={`http://maps.google.com/mapfiles/ms/icons/${section.color}.png`}
                 className="w-5"
               />
             </li>
