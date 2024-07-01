@@ -1,4 +1,4 @@
-## Chemnitz Care
+## Care Chemnitz 
 
 > Children, adolescents, and young adults require access to the education and care system. This is essential for their development and also legally mandated.
 
