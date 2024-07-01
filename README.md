@@ -10,24 +10,18 @@
 
 ## How to use?
 
-
 1. Creating .env file for the google maps API
-
    ```bash
    VITE_MAPS_API_KEY={your google maps API}
-
    ```
-
 2. Running the Client:
-
-```bash
-cd client && npm i && npm run dev
-```
+   ```bash
+   cd client && npm i && npm run dev
+   ```
 3. Running the Server:
-
-```bash
-cd server && npm i && node --env-file=../.env server
-```
+   ```bash
+   cd server && npm i && node --env-file=../.env server
+   ```
 
 ## Built With
 
@@ -52,4 +46,3 @@ Please read [CONTRIBUTING](https://gist.github.com/y0ungchoi/be9662f632063012c84
 ## License
 
 This project is licensed under the MIT License - see the [LICENSE](https://gist.github.com/y0ungchoi/22bbc7aa64f6c8ee33850ad88bafdfcf) file for details
-
