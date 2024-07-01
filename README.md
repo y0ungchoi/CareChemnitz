@@ -2,10 +2,17 @@
 
 > Children, adolescents, and young adults require access to the education and care system. This is essential for their development and also legally mandated.
 
+<img src="https://github.com/y0ungchoi/CareChemnitz/assets/20284358/bbb12cd1-2dcc-4154-9203-eeb209632351" width="200">
+
 ## Features
 
 - Responsible design
+  - Web | Tablet | Mobile
+  - <img src="https://github.com/y0ungchoi/CareChemnitz/assets/20284358/03f9332a-9f14-43c9-9212-9ce9b6995883" height="200"><img src="https://github.com/y0ungchoi/CareChemnitz/assets/20284358/d2c4075d-ca32-42fc-9749-0efe3f214411" height="200"><img src="https://github.com/y0ungchoi/CareChemnitz/assets/20284358/95cff1bb-c8ea-4c89-92f7-bae8680469ac" height="200">
+
 - Filter
+  - <img src="https://github.com/y0ungchoi/CareChemnitz/assets/20284358/34f2e2dc-dff6-446b-94b1-bacdca403aab" height="200">
+
 - Favorite place
 
 ## How to use?
